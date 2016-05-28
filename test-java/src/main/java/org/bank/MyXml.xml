@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+	<xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="ds">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ProductType" type="xs:string" minOccurs="0" />
+							<xs:element name="ProductID" type="xs:int" minOccurs="0" />
+							<xs:element name="ProductLongName" type="xs:string" minOccurs="0" />
+							<xs:element name="BrokerName" type="xs:string" minOccurs="0" />
+							<xs:element name="ProductShare" type="xs:double" minOccurs="0" />
+							<xs:element name="StartDate" type="xs:string" minOccurs="0" />
+							<xs:element name="EndDate" type="xs:string" minOccurs="0" />
+							<xs:element name="min_FundReceivedDays" type="xs:int" minOccurs="0" />
+							<xs:element name="ContactPhone" type="xs:string" minOccurs="0" />
+							<xs:element name="min_EquityThreshold" type="xs:double" minOccurs="0" />
+							<xs:element name="max_Proportion" type="xs:decimal" minOccurs="0" />
+							<xs:element name="PolicyExp" type="xs:string" minOccurs="0" />
+							<xs:element name="SeniorYields" type="xs:decimal" minOccurs="0" />
+							<xs:element name="TimeStamp" type="xs:dateTime" minOccurs="0" />
+							<xs:element name="DTSProductID" type="xs:string" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
+<!-- <diffgr:diffgram xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:diffgr="urn:schemas-microsoft-com:xml-diffgram-v1">
+	<NewDataSet xmlns="">
+		<ds diffgr:id="ds1" msdata:rowOrder="0">
+			<ProductType>&#x80A1;&#x7968;</ProductType>
+			<ProductID>67</ProductID>
+			<ProductLongName>&#x6708;&#x6708;&#x914D;</ProductLongName>
+			<BrokerName>&#x90CE;&#x8D22;&#x5BCC;&#x6D4B;&#x8BD5;</BrokerName>
+			<ProductShare>15000000</ProductShare>
+			<StartDate>20150312</StartDate>
+			<EndDate>20160312</EndDate>
+			<min_FundReceivedDays>0</min_FundReceivedDays>
+			<ContactPhone />
+			<min_EquityThreshold>2000</min_EquityThreshold>
+			<max_Proportion>4.0000</max_Proportion>
+			<PolicyExp>1:4</PolicyExp>
+			<SeniorYields>0.0</SeniorYields>
+			<TimeStamp>2015-03-19T18:57:09+08:00</TimeStamp>
+			<DTSProductID>P20150312100005</DTSProductID>
+		</ds>
+		<ds diffgr:id="ds2" msdata:rowOrder="1">
+			<ProductType>&#x80A1;&#x7968;</ProductType>
+			<ProductID>65</ProductID>
+			<ProductLongName>&#x5929;&#x5929;&#x914D;&#x8D44;</ProductLongName>
+			<BrokerName>&#x90CE;&#x8D22;&#x5BCC;&#x6D4B;&#x8BD5;</BrokerName>
+			<ProductShare>11000000</ProductShare>
+			<StartDate>20150312</StartDate>
+			<EndDate>20200326</EndDate>
+			<min_FundReceivedDays>0</min_FundReceivedDays>
+			<ContactPhone />
+			<min_EquityThreshold>2000</min_EquityThreshold>
+			<max_Proportion>4.0000</max_Proportion>
+			<PolicyExp>1:4</PolicyExp>
+			<SeniorYields>0.0</SeniorYields>
+			<TimeStamp>2015-03-19T18:47:35+08:00</TimeStamp>
+			<DTSProductID>P20150312100004</DTSProductID>
+		</ds>
+		<ds diffgr:id="ds3" msdata:rowOrder="2">
+			<ProductType>&#x80A1;&#x7968;</ProductType>
+			<ProductID>77</ProductID>
+			<ProductLongName>&#x514D;&#x8D39;&#x4F53;&#x9A8C;</ProductLongName>
+			<BrokerName>&#x90CE;&#x8D22;&#x5BCC;&#x6D4B;&#x8BD5;</BrokerName>
+			<ProductShare>1200000</ProductShare>
+			<StartDate>20150313</StartDate>
+			<EndDate>20250901</EndDate>
+			<ContactPhone />
+			<min_EquityThreshold>1</min_EquityThreshold>
+			<max_Proportion>2000.0000</max_Proportion>
+			<PolicyExp>1:2000</PolicyExp>
+			<SeniorYields>0.0</SeniorYields>
+			<TimeStamp>2015-03-13T09:14:03+08:00</TimeStamp>
+			<DTSProductID>P20150313100001</DTSProductID>
+		</ds>
+		<ds diffgr:id="ds4" msdata:rowOrder="3">
+			<ProductType>&#x80A1;&#x7968;</ProductType>
+			<ProductID>69</ProductID>
+			<ProductLongName>&#x8D85;&#x4F4E;&#x4F63;&#x91D1;</ProductLongName>
+			<BrokerName>&#x90CE;&#x8D22;&#x5BCC;&#x6D4B;&#x8BD5;</BrokerName>
+			<ProductShare>170000</ProductShare>
+			<StartDate>20150312</StartDate>
+			<EndDate>20160312</EndDate>
+			<min_FundReceivedDays>0</min_FundReceivedDays>
+			<ContactPhone />
+			<min_EquityThreshold>2000</min_EquityThreshold>
+			<max_Proportion>4.0000</max_Proportion>
+			<PolicyExp>1:4</PolicyExp>
+			<SeniorYields>0.0</SeniorYields>
+			<TimeStamp>2015-03-12T23:54:31+08:00</TimeStamp>
+			<DTSProductID>P20150312100002</DTSProductID>
+		</ds>
+	</NewDataSet>
+</diffgr:diffgram> -->
+

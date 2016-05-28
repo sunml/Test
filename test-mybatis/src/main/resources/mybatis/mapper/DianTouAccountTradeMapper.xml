@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mybatis.dao.DianTouAccountTradeMapper" >
+  <resultMap id="BaseResultMap" type="mybatis.entity.DianTouAccountTrade" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="dt_trade_id" property="dtTradeId" jdbcType="VARCHAR" />
+    <result column="market_code" property="marketCode" jdbcType="CHAR" />
+    <result column="stock_code" property="stockCode" jdbcType="VARCHAR" />
+    <result column="principal_money" property="principalMoney" jdbcType="DECIMAL" />
+    <result column="remain_principal_money" property="remainPrincipalMoney" jdbcType="DECIMAL" />
+    <result column="buy_strategy" property="buyStrategy" jdbcType="INTEGER" />
+    <result column="buy_endtime" property="buyEndtime" jdbcType="TIMESTAMP" />
+    <result column="buy_trigger_price" property="buyTriggerPrice" jdbcType="DECIMAL" />
+    <result column="real_buy_price" property="realBuyPrice" jdbcType="DECIMAL" />
+    <result column="real_buy_quantity" property="realBuyQuantity" jdbcType="INTEGER" />
+    <result column="real_buy_time" property="realBuyTime" jdbcType="TIMESTAMP" />
+    <result column="buy_trade_id" property="buyTradeId" jdbcType="VARCHAR" />
+    <result column="buy_procedure_fee" property="buyProcedureFee" jdbcType="DECIMAL" />
+    <result column="buy_transfer_fee" property="buyTransferFee" jdbcType="DECIMAL" />
+    <result column="sale_strategy" property="saleStrategy" jdbcType="INTEGER" />
+    <result column="sale_starttime" property="saleStarttime" jdbcType="TIMESTAMP" />
+    <result column="sale_trigger_price" property="saleTriggerPrice" jdbcType="DECIMAL" />
+    <result column="real_sale_time" property="realSaleTime" jdbcType="TIMESTAMP" />
+    <result column="sale_trade_id" property="saleTradeId" jdbcType="VARCHAR" />
+    <result column="real_sale_price" property="realSalePrice" jdbcType="DECIMAL" />
+    <result column="real_sale_quantity" property="realSaleQuantity" jdbcType="INTEGER" />
+    <result column="sale_procedure_fee" property="saleProcedureFee" jdbcType="DECIMAL" />
+    <result column="sale_stamp_tax_fee" property="saleStampTaxFee" jdbcType="DECIMAL" />
+    <result column="dt_trade_endtime" property="dtTradeEndtime" jdbcType="TIMESTAMP" />
+    <result column="stop_profit_ratio" property="stopProfitRatio" jdbcType="REAL" />
+    <result column="stop_loss_ratio" property="stopLossRatio" jdbcType="REAL" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, dt_trade_id, market_code, stock_code, principal_money, remain_principal_money, 
+    buy_strategy, buy_endtime, buy_trigger_price, real_buy_price, real_buy_quantity, 
+    real_buy_time, buy_trade_id, buy_procedure_fee, buy_transfer_fee, sale_strategy, 
+    sale_starttime, sale_trigger_price, real_sale_time, sale_trade_id, real_sale_price, 
+    real_sale_quantity, sale_procedure_fee, sale_stamp_tax_fee, dt_trade_endtime, stop_profit_ratio, 
+    stop_loss_ratio, status
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="mybatis.entity.DianTouAccountTradeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dw_diantou_account_trade
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from dw_diantou_account_trade
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from dw_diantou_account_trade
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="mybatis.entity.DianTouAccountTradeExample" >
+    delete from dw_diantou_account_trade
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mybatis.entity.DianTouAccountTrade" >
+    insert into dw_diantou_account_trade (id, dt_trade_id, market_code, 
+      stock_code, principal_money, remain_principal_money, 
+      buy_strategy, buy_endtime, buy_trigger_price, 
+      real_buy_price, real_buy_quantity, real_buy_time, 
+      buy_trade_id, buy_procedure_fee, buy_transfer_fee, 
+      sale_strategy, sale_starttime, sale_trigger_price, 
+      real_sale_time, sale_trade_id, real_sale_price, 
+      real_sale_quantity, sale_procedure_fee, sale_stamp_tax_fee, 
+      dt_trade_endtime, stop_profit_ratio, stop_loss_ratio, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{dtTradeId,jdbcType=VARCHAR}, #{marketCode,jdbcType=CHAR}, 
+      #{stockCode,jdbcType=VARCHAR}, #{principalMoney,jdbcType=DECIMAL}, #{remainPrincipalMoney,jdbcType=DECIMAL}, 
+      #{buyStrategy,jdbcType=INTEGER}, #{buyEndtime,jdbcType=TIMESTAMP}, #{buyTriggerPrice,jdbcType=DECIMAL}, 
+      #{realBuyPrice,jdbcType=DECIMAL}, #{realBuyQuantity,jdbcType=INTEGER}, #{realBuyTime,jdbcType=TIMESTAMP}, 
+      #{buyTradeId,jdbcType=VARCHAR}, #{buyProcedureFee,jdbcType=DECIMAL}, #{buyTransferFee,jdbcType=DECIMAL}, 
+      #{saleStrategy,jdbcType=INTEGER}, #{saleStarttime,jdbcType=TIMESTAMP}, #{saleTriggerPrice,jdbcType=DECIMAL}, 
+      #{realSaleTime,jdbcType=TIMESTAMP}, #{saleTradeId,jdbcType=VARCHAR}, #{realSalePrice,jdbcType=DECIMAL}, 
+      #{realSaleQuantity,jdbcType=INTEGER}, #{saleProcedureFee,jdbcType=DECIMAL}, #{saleStampTaxFee,jdbcType=DECIMAL}, 
+      #{dtTradeEndtime,jdbcType=TIMESTAMP}, #{stopProfitRatio,jdbcType=REAL}, #{stopLossRatio,jdbcType=REAL}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="mybatis.entity.DianTouAccountTrade" >
+    insert into dw_diantou_account_trade
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="dtTradeId != null" >
+        dt_trade_id,
+      </if>
+      <if test="marketCode != null" >
+        market_code,
+      </if>
+      <if test="stockCode != null" >
+        stock_code,
+      </if>
+      <if test="principalMoney != null" >
+        principal_money,
+      </if>
+      <if test="remainPrincipalMoney != null" >
+        remain_principal_money,
+      </if>
+      <if test="buyStrategy != null" >
+        buy_strategy,
+      </if>
+      <if test="buyEndtime != null" >
+        buy_endtime,
+      </if>
+      <if test="buyTriggerPrice != null" >
+        buy_trigger_price,
+      </if>
+      <if test="realBuyPrice != null" >
+        real_buy_price,
+      </if>
+      <if test="realBuyQuantity != null" >
+        real_buy_quantity,
+      </if>
+      <if test="realBuyTime != null" >
+        real_buy_time,
+      </if>
+      <if test="buyTradeId != null" >
+        buy_trade_id,
+      </if>
+      <if test="buyProcedureFee != null" >
+        buy_procedure_fee,
+      </if>
+      <if test="buyTransferFee != null" >
+        buy_transfer_fee,
+      </if>
+      <if test="saleStrategy != null" >
+        sale_strategy,
+      </if>
+      <if test="saleStarttime != null" >
+        sale_starttime,
+      </if>
+      <if test="saleTriggerPrice != null" >
+        sale_trigger_price,
+      </if>
+      <if test="realSaleTime != null" >
+        real_sale_time,
+      </if>
+      <if test="saleTradeId != null" >
+        sale_trade_id,
+      </if>
+      <if test="realSalePrice != null" >
+        real_sale_price,
+      </if>
+      <if test="realSaleQuantity != null" >
+        real_sale_quantity,
+      </if>
+      <if test="saleProcedureFee != null" >
+        sale_procedure_fee,
+      </if>
+      <if test="saleStampTaxFee != null" >
+        sale_stamp_tax_fee,
+      </if>
+      <if test="dtTradeEndtime != null" >
+        dt_trade_endtime,
+      </if>
+      <if test="stopProfitRatio != null" >
+        stop_profit_ratio,
+      </if>
+      <if test="stopLossRatio != null" >
+        stop_loss_ratio,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dtTradeId != null" >
+        #{dtTradeId,jdbcType=VARCHAR},
+      </if>
+      <if test="marketCode != null" >
+        #{marketCode,jdbcType=CHAR},
+      </if>
+      <if test="stockCode != null" >
+        #{stockCode,jdbcType=VARCHAR},
+      </if>
+      <if test="principalMoney != null" >
+        #{principalMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="remainPrincipalMoney != null" >
+        #{remainPrincipalMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="buyStrategy != null" >
+        #{buyStrategy,jdbcType=INTEGER},
+      </if>
+      <if test="buyEndtime != null" >
+        #{buyEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="buyTriggerPrice != null" >
+        #{buyTriggerPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="realBuyPrice != null" >
+        #{realBuyPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="realBuyQuantity != null" >
+        #{realBuyQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="realBuyTime != null" >
+        #{realBuyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="buyTradeId != null" >
+        #{buyTradeId,jdbcType=VARCHAR},
+      </if>
+      <if test="buyProcedureFee != null" >
+        #{buyProcedureFee,jdbcType=DECIMAL},
+      </if>
+      <if test="buyTransferFee != null" >
+        #{buyTransferFee,jdbcType=DECIMAL},
+      </if>
+      <if test="saleStrategy != null" >
+        #{saleStrategy,jdbcType=INTEGER},
+      </if>
+      <if test="saleStarttime != null" >
+        #{saleStarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="saleTriggerPrice != null" >
+        #{saleTriggerPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="realSaleTime != null" >
+        #{realSaleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="saleTradeId != null" >
+        #{saleTradeId,jdbcType=VARCHAR},
+      </if>
+      <if test="realSalePrice != null" >
+        #{realSalePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="realSaleQuantity != null" >
+        #{realSaleQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="saleProcedureFee != null" >
+        #{saleProcedureFee,jdbcType=DECIMAL},
+      </if>
+      <if test="saleStampTaxFee != null" >
+        #{saleStampTaxFee,jdbcType=DECIMAL},
+      </if>
+      <if test="dtTradeEndtime != null" >
+        #{dtTradeEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stopProfitRatio != null" >
+        #{stopProfitRatio,jdbcType=REAL},
+      </if>
+      <if test="stopLossRatio != null" >
+        #{stopLossRatio,jdbcType=REAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mybatis.entity.DianTouAccountTradeExample" resultType="java.lang.Integer" >
+    select count(*) from dw_diantou_account_trade
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update dw_diantou_account_trade
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.dtTradeId != null" >
+        dt_trade_id = #{record.dtTradeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.marketCode != null" >
+        market_code = #{record.marketCode,jdbcType=CHAR},
+      </if>
+      <if test="record.stockCode != null" >
+        stock_code = #{record.stockCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.principalMoney != null" >
+        principal_money = #{record.principalMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="record.remainPrincipalMoney != null" >
+        remain_principal_money = #{record.remainPrincipalMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="record.buyStrategy != null" >
+        buy_strategy = #{record.buyStrategy,jdbcType=INTEGER},
+      </if>
+      <if test="record.buyEndtime != null" >
+        buy_endtime = #{record.buyEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.buyTriggerPrice != null" >
+        buy_trigger_price = #{record.buyTriggerPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.realBuyPrice != null" >
+        real_buy_price = #{record.realBuyPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.realBuyQuantity != null" >
+        real_buy_quantity = #{record.realBuyQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.realBuyTime != null" >
+        real_buy_time = #{record.realBuyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.buyTradeId != null" >
+        buy_trade_id = #{record.buyTradeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.buyProcedureFee != null" >
+        buy_procedure_fee = #{record.buyProcedureFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.buyTransferFee != null" >
+        buy_transfer_fee = #{record.buyTransferFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.saleStrategy != null" >
+        sale_strategy = #{record.saleStrategy,jdbcType=INTEGER},
+      </if>
+      <if test="record.saleStarttime != null" >
+        sale_starttime = #{record.saleStarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.saleTriggerPrice != null" >
+        sale_trigger_price = #{record.saleTriggerPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.realSaleTime != null" >
+        real_sale_time = #{record.realSaleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.saleTradeId != null" >
+        sale_trade_id = #{record.saleTradeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realSalePrice != null" >
+        real_sale_price = #{record.realSalePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.realSaleQuantity != null" >
+        real_sale_quantity = #{record.realSaleQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.saleProcedureFee != null" >
+        sale_procedure_fee = #{record.saleProcedureFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.saleStampTaxFee != null" >
+        sale_stamp_tax_fee = #{record.saleStampTaxFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.dtTradeEndtime != null" >
+        dt_trade_endtime = #{record.dtTradeEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.stopProfitRatio != null" >
+        stop_profit_ratio = #{record.stopProfitRatio,jdbcType=REAL},
+      </if>
+      <if test="record.stopLossRatio != null" >
+        stop_loss_ratio = #{record.stopLossRatio,jdbcType=REAL},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update dw_diantou_account_trade
+    set id = #{record.id,jdbcType=INTEGER},
+      dt_trade_id = #{record.dtTradeId,jdbcType=VARCHAR},
+      market_code = #{record.marketCode,jdbcType=CHAR},
+      stock_code = #{record.stockCode,jdbcType=VARCHAR},
+      principal_money = #{record.principalMoney,jdbcType=DECIMAL},
+      remain_principal_money = #{record.remainPrincipalMoney,jdbcType=DECIMAL},
+      buy_strategy = #{record.buyStrategy,jdbcType=INTEGER},
+      buy_endtime = #{record.buyEndtime,jdbcType=TIMESTAMP},
+      buy_trigger_price = #{record.buyTriggerPrice,jdbcType=DECIMAL},
+      real_buy_price = #{record.realBuyPrice,jdbcType=DECIMAL},
+      real_buy_quantity = #{record.realBuyQuantity,jdbcType=INTEGER},
+      real_buy_time = #{record.realBuyTime,jdbcType=TIMESTAMP},
+      buy_trade_id = #{record.buyTradeId,jdbcType=VARCHAR},
+      buy_procedure_fee = #{record.buyProcedureFee,jdbcType=DECIMAL},
+      buy_transfer_fee = #{record.buyTransferFee,jdbcType=DECIMAL},
+      sale_strategy = #{record.saleStrategy,jdbcType=INTEGER},
+      sale_starttime = #{record.saleStarttime,jdbcType=TIMESTAMP},
+      sale_trigger_price = #{record.saleTriggerPrice,jdbcType=DECIMAL},
+      real_sale_time = #{record.realSaleTime,jdbcType=TIMESTAMP},
+      sale_trade_id = #{record.saleTradeId,jdbcType=VARCHAR},
+      real_sale_price = #{record.realSalePrice,jdbcType=DECIMAL},
+      real_sale_quantity = #{record.realSaleQuantity,jdbcType=INTEGER},
+      sale_procedure_fee = #{record.saleProcedureFee,jdbcType=DECIMAL},
+      sale_stamp_tax_fee = #{record.saleStampTaxFee,jdbcType=DECIMAL},
+      dt_trade_endtime = #{record.dtTradeEndtime,jdbcType=TIMESTAMP},
+      stop_profit_ratio = #{record.stopProfitRatio,jdbcType=REAL},
+      stop_loss_ratio = #{record.stopLossRatio,jdbcType=REAL},
+      status = #{record.status,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="mybatis.entity.DianTouAccountTrade" >
+    update dw_diantou_account_trade
+    <set >
+      <if test="dtTradeId != null" >
+        dt_trade_id = #{dtTradeId,jdbcType=VARCHAR},
+      </if>
+      <if test="marketCode != null" >
+        market_code = #{marketCode,jdbcType=CHAR},
+      </if>
+      <if test="stockCode != null" >
+        stock_code = #{stockCode,jdbcType=VARCHAR},
+      </if>
+      <if test="principalMoney != null" >
+        principal_money = #{principalMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="remainPrincipalMoney != null" >
+        remain_principal_money = #{remainPrincipalMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="buyStrategy != null" >
+        buy_strategy = #{buyStrategy,jdbcType=INTEGER},
+      </if>
+      <if test="buyEndtime != null" >
+        buy_endtime = #{buyEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="buyTriggerPrice != null" >
+        buy_trigger_price = #{buyTriggerPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="realBuyPrice != null" >
+        real_buy_price = #{realBuyPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="realBuyQuantity != null" >
+        real_buy_quantity = #{realBuyQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="realBuyTime != null" >
+        real_buy_time = #{realBuyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="buyTradeId != null" >
+        buy_trade_id = #{buyTradeId,jdbcType=VARCHAR},
+      </if>
+      <if test="buyProcedureFee != null" >
+        buy_procedure_fee = #{buyProcedureFee,jdbcType=DECIMAL},
+      </if>
+      <if test="buyTransferFee != null" >
+        buy_transfer_fee = #{buyTransferFee,jdbcType=DECIMAL},
+      </if>
+      <if test="saleStrategy != null" >
+        sale_strategy = #{saleStrategy,jdbcType=INTEGER},
+      </if>
+      <if test="saleStarttime != null" >
+        sale_starttime = #{saleStarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="saleTriggerPrice != null" >
+        sale_trigger_price = #{saleTriggerPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="realSaleTime != null" >
+        real_sale_time = #{realSaleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="saleTradeId != null" >
+        sale_trade_id = #{saleTradeId,jdbcType=VARCHAR},
+      </if>
+      <if test="realSalePrice != null" >
+        real_sale_price = #{realSalePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="realSaleQuantity != null" >
+        real_sale_quantity = #{realSaleQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="saleProcedureFee != null" >
+        sale_procedure_fee = #{saleProcedureFee,jdbcType=DECIMAL},
+      </if>
+      <if test="saleStampTaxFee != null" >
+        sale_stamp_tax_fee = #{saleStampTaxFee,jdbcType=DECIMAL},
+      </if>
+      <if test="dtTradeEndtime != null" >
+        dt_trade_endtime = #{dtTradeEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stopProfitRatio != null" >
+        stop_profit_ratio = #{stopProfitRatio,jdbcType=REAL},
+      </if>
+      <if test="stopLossRatio != null" >
+        stop_loss_ratio = #{stopLossRatio,jdbcType=REAL},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mybatis.entity.DianTouAccountTrade" >
+    update dw_diantou_account_trade
+    set dt_trade_id = #{dtTradeId,jdbcType=VARCHAR},
+      market_code = #{marketCode,jdbcType=CHAR},
+      stock_code = #{stockCode,jdbcType=VARCHAR},
+      principal_money = #{principalMoney,jdbcType=DECIMAL},
+      remain_principal_money = #{remainPrincipalMoney,jdbcType=DECIMAL},
+      buy_strategy = #{buyStrategy,jdbcType=INTEGER},
+      buy_endtime = #{buyEndtime,jdbcType=TIMESTAMP},
+      buy_trigger_price = #{buyTriggerPrice,jdbcType=DECIMAL},
+      real_buy_price = #{realBuyPrice,jdbcType=DECIMAL},
+      real_buy_quantity = #{realBuyQuantity,jdbcType=INTEGER},
+      real_buy_time = #{realBuyTime,jdbcType=TIMESTAMP},
+      buy_trade_id = #{buyTradeId,jdbcType=VARCHAR},
+      buy_procedure_fee = #{buyProcedureFee,jdbcType=DECIMAL},
+      buy_transfer_fee = #{buyTransferFee,jdbcType=DECIMAL},
+      sale_strategy = #{saleStrategy,jdbcType=INTEGER},
+      sale_starttime = #{saleStarttime,jdbcType=TIMESTAMP},
+      sale_trigger_price = #{saleTriggerPrice,jdbcType=DECIMAL},
+      real_sale_time = #{realSaleTime,jdbcType=TIMESTAMP},
+      sale_trade_id = #{saleTradeId,jdbcType=VARCHAR},
+      real_sale_price = #{realSalePrice,jdbcType=DECIMAL},
+      real_sale_quantity = #{realSaleQuantity,jdbcType=INTEGER},
+      sale_procedure_fee = #{saleProcedureFee,jdbcType=DECIMAL},
+      sale_stamp_tax_fee = #{saleStampTaxFee,jdbcType=DECIMAL},
+      dt_trade_endtime = #{dtTradeEndtime,jdbcType=TIMESTAMP},
+      stop_profit_ratio = #{stopProfitRatio,jdbcType=REAL},
+      stop_loss_ratio = #{stopLossRatio,jdbcType=REAL},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

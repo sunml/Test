@@ -1,0 +1,1514 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mybatis.dao.StockMarketMapper">
+  <resultMap id="BaseResultMap" type="mybatis.entity.StockMarket">
+    <id column="stock_code" jdbcType="CHAR" property="stockCode" />
+    <result column="market_code" jdbcType="CHAR" property="marketCode" />
+    <result column="open_price" jdbcType="REAL" property="openPrice" />
+    <result column="ystd_close_price" jdbcType="REAL" property="ystdClosePrice" />
+    <result column="now_rate" jdbcType="REAL" property="nowRate" />
+    <result column="now_price" jdbcType="REAL" property="nowPrice" />
+    <result column="highest_rate" jdbcType="REAL" property="highestRate" />
+    <result column="highest_price" jdbcType="REAL" property="highestPrice" />
+    <result column="lowest_rate" jdbcType="REAL" property="lowestRate" />
+    <result column="lowest_price" jdbcType="REAL" property="lowestPrice" />
+    <result column="market_time" jdbcType="INTEGER" property="marketTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    stock_code, market_code, open_price, ystd_close_price, now_rate, now_price, highest_rate, 
+    highest_price, lowest_rate, lowest_price, market_time
+  </sql>
+  <select id="selectByExample" parameterType="mybatis.entity.StockMarketExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dw_stock_market
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dw_stock_market
+    where stock_code = #{stockCode,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from dw_stock_market
+    where stock_code = #{stockCode,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="mybatis.entity.StockMarketExample">
+    delete from dw_stock_market
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mybatis.entity.StockMarket">
+    insert into dw_stock_market (stock_code, market_code, open_price, 
+      ystd_close_price, now_rate, now_price, 
+      highest_rate, highest_price, lowest_rate, 
+      lowest_price, market_time)
+    values (#{stockCode,jdbcType=CHAR}, #{marketCode,jdbcType=CHAR}, #{openPrice,jdbcType=REAL}, 
+      #{ystdClosePrice,jdbcType=REAL}, #{nowRate,jdbcType=REAL}, #{nowPrice,jdbcType=REAL}, 
+      #{highestRate,jdbcType=REAL}, #{highestPrice,jdbcType=REAL}, #{lowestRate,jdbcType=REAL}, 
+      #{lowestPrice,jdbcType=REAL}, #{marketTime,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="mybatis.entity.StockMarket">
+    insert into dw_stock_market
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="stockCode != null">
+        stock_code,
+      </if>
+      <if test="marketCode != null">
+        market_code,
+      </if>
+      <if test="openPrice != null">
+        open_price,
+      </if>
+      <if test="ystdClosePrice != null">
+        ystd_close_price,
+      </if>
+      <if test="nowRate != null">
+        now_rate,
+      </if>
+      <if test="nowPrice != null">
+        now_price,
+      </if>
+      <if test="highestRate != null">
+        highest_rate,
+      </if>
+      <if test="highestPrice != null">
+        highest_price,
+      </if>
+      <if test="lowestRate != null">
+        lowest_rate,
+      </if>
+      <if test="lowestPrice != null">
+        lowest_price,
+      </if>
+      <if test="marketTime != null">
+        market_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="stockCode != null">
+        #{stockCode,jdbcType=CHAR},
+      </if>
+      <if test="marketCode != null">
+        #{marketCode,jdbcType=CHAR},
+      </if>
+      <if test="openPrice != null">
+        #{openPrice,jdbcType=REAL},
+      </if>
+      <if test="ystdClosePrice != null">
+        #{ystdClosePrice,jdbcType=REAL},
+      </if>
+      <if test="nowRate != null">
+        #{nowRate,jdbcType=REAL},
+      </if>
+      <if test="nowPrice != null">
+        #{nowPrice,jdbcType=REAL},
+      </if>
+      <if test="highestRate != null">
+        #{highestRate,jdbcType=REAL},
+      </if>
+      <if test="highestPrice != null">
+        #{highestPrice,jdbcType=REAL},
+      </if>
+      <if test="lowestRate != null">
+        #{lowestRate,jdbcType=REAL},
+      </if>
+      <if test="lowestPrice != null">
+        #{lowestPrice,jdbcType=REAL},
+      </if>
+      <if test="marketTime != null">
+        #{marketTime,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mybatis.entity.StockMarketExample" resultType="java.lang.Integer">
+    select count(*) from dw_stock_market
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dw_stock_market
+    <set>
+      <if test="record.stockCode != null">
+        stock_code = #{record.stockCode,jdbcType=CHAR},
+      </if>
+      <if test="record.marketCode != null">
+        market_code = #{record.marketCode,jdbcType=CHAR},
+      </if>
+      <if test="record.openPrice != null">
+        open_price = #{record.openPrice,jdbcType=REAL},
+      </if>
+      <if test="record.ystdClosePrice != null">
+        ystd_close_price = #{record.ystdClosePrice,jdbcType=REAL},
+      </if>
+      <if test="record.nowRate != null">
+        now_rate = #{record.nowRate,jdbcType=REAL},
+      </if>
+      <if test="record.nowPrice != null">
+        now_price = #{record.nowPrice,jdbcType=REAL},
+      </if>
+      <if test="record.highestRate != null">
+        highest_rate = #{record.highestRate,jdbcType=REAL},
+      </if>
+      <if test="record.highestPrice != null">
+        highest_price = #{record.highestPrice,jdbcType=REAL},
+      </if>
+      <if test="record.lowestRate != null">
+        lowest_rate = #{record.lowestRate,jdbcType=REAL},
+      </if>
+      <if test="record.lowestPrice != null">
+        lowest_price = #{record.lowestPrice,jdbcType=REAL},
+      </if>
+      <if test="record.marketTime != null">
+        market_time = #{record.marketTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dw_stock_market
+    set stock_code = #{record.stockCode,jdbcType=CHAR},
+      market_code = #{record.marketCode,jdbcType=CHAR},
+      open_price = #{record.openPrice,jdbcType=REAL},
+      ystd_close_price = #{record.ystdClosePrice,jdbcType=REAL},
+      now_rate = #{record.nowRate,jdbcType=REAL},
+      now_price = #{record.nowPrice,jdbcType=REAL},
+      highest_rate = #{record.highestRate,jdbcType=REAL},
+      highest_price = #{record.highestPrice,jdbcType=REAL},
+      lowest_rate = #{record.lowestRate,jdbcType=REAL},
+      lowest_price = #{record.lowestPrice,jdbcType=REAL},
+      market_time = #{record.marketTime,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="mybatis.entity.StockMarket">
+    update dw_stock_market
+    <set>
+      <if test="marketCode != null">
+        market_code = #{marketCode,jdbcType=CHAR},
+      </if>
+      <if test="openPrice != null">
+        open_price = #{openPrice,jdbcType=REAL},
+      </if>
+      <if test="ystdClosePrice != null">
+        ystd_close_price = #{ystdClosePrice,jdbcType=REAL},
+      </if>
+      <if test="nowRate != null">
+        now_rate = #{nowRate,jdbcType=REAL},
+      </if>
+      <if test="nowPrice != null">
+        now_price = #{nowPrice,jdbcType=REAL},
+      </if>
+      <if test="highestRate != null">
+        highest_rate = #{highestRate,jdbcType=REAL},
+      </if>
+      <if test="highestPrice != null">
+        highest_price = #{highestPrice,jdbcType=REAL},
+      </if>
+      <if test="lowestRate != null">
+        lowest_rate = #{lowestRate,jdbcType=REAL},
+      </if>
+      <if test="lowestPrice != null">
+        lowest_price = #{lowestPrice,jdbcType=REAL},
+      </if>
+      <if test="marketTime != null">
+        market_time = #{marketTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    where stock_code = #{stockCode,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mybatis.entity.StockMarket">
+    update dw_stock_market
+    set market_code = #{marketCode,jdbcType=CHAR},
+      open_price = #{openPrice,jdbcType=REAL},
+      ystd_close_price = #{ystdClosePrice,jdbcType=REAL},
+      now_rate = #{nowRate,jdbcType=REAL},
+      now_price = #{nowPrice,jdbcType=REAL},
+      highest_rate = #{highestRate,jdbcType=REAL},
+      highest_price = #{highestPrice,jdbcType=REAL},
+      lowest_rate = #{lowestRate,jdbcType=REAL},
+      lowest_price = #{lowestPrice,jdbcType=REAL},
+      market_time = #{marketTime,jdbcType=INTEGER}
+    where stock_code = #{stockCode,jdbcType=CHAR}
+  </update>
+  <resultMap id="BaseResultMap" type="mybatis.entity.StockMarket">
+    <id column="stock_code" jdbcType="CHAR" property="stockCode" />
+    <result column="market_code" jdbcType="CHAR" property="marketCode" />
+    <result column="open_price" jdbcType="REAL" property="openPrice" />
+    <result column="ystd_close_price" jdbcType="REAL" property="ystdClosePrice" />
+    <result column="now_rate" jdbcType="REAL" property="nowRate" />
+    <result column="now_price" jdbcType="REAL" property="nowPrice" />
+    <result column="highest_rate" jdbcType="REAL" property="highestRate" />
+    <result column="highest_price" jdbcType="REAL" property="highestPrice" />
+    <result column="lowest_rate" jdbcType="REAL" property="lowestRate" />
+    <result column="lowest_price" jdbcType="REAL" property="lowestPrice" />
+    <result column="market_time" jdbcType="INTEGER" property="marketTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    stock_code, market_code, open_price, ystd_close_price, now_rate, now_price, highest_rate, 
+    highest_price, lowest_rate, lowest_price, market_time
+  </sql>
+  <select id="selectByExample" parameterType="mybatis.entity.StockMarketExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dw_stock_market
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dw_stock_market
+    where stock_code = #{stockCode,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from dw_stock_market
+    where stock_code = #{stockCode,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="mybatis.entity.StockMarketExample">
+    delete from dw_stock_market
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mybatis.entity.StockMarket">
+    insert into dw_stock_market (stock_code, market_code, open_price, 
+      ystd_close_price, now_rate, now_price, 
+      highest_rate, highest_price, lowest_rate, 
+      lowest_price, market_time)
+    values (#{stockCode,jdbcType=CHAR}, #{marketCode,jdbcType=CHAR}, #{openPrice,jdbcType=REAL}, 
+      #{ystdClosePrice,jdbcType=REAL}, #{nowRate,jdbcType=REAL}, #{nowPrice,jdbcType=REAL}, 
+      #{highestRate,jdbcType=REAL}, #{highestPrice,jdbcType=REAL}, #{lowestRate,jdbcType=REAL}, 
+      #{lowestPrice,jdbcType=REAL}, #{marketTime,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="mybatis.entity.StockMarket">
+    insert into dw_stock_market
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="stockCode != null">
+        stock_code,
+      </if>
+      <if test="marketCode != null">
+        market_code,
+      </if>
+      <if test="openPrice != null">
+        open_price,
+      </if>
+      <if test="ystdClosePrice != null">
+        ystd_close_price,
+      </if>
+      <if test="nowRate != null">
+        now_rate,
+      </if>
+      <if test="nowPrice != null">
+        now_price,
+      </if>
+      <if test="highestRate != null">
+        highest_rate,
+      </if>
+      <if test="highestPrice != null">
+        highest_price,
+      </if>
+      <if test="lowestRate != null">
+        lowest_rate,
+      </if>
+      <if test="lowestPrice != null">
+        lowest_price,
+      </if>
+      <if test="marketTime != null">
+        market_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="stockCode != null">
+        #{stockCode,jdbcType=CHAR},
+      </if>
+      <if test="marketCode != null">
+        #{marketCode,jdbcType=CHAR},
+      </if>
+      <if test="openPrice != null">
+        #{openPrice,jdbcType=REAL},
+      </if>
+      <if test="ystdClosePrice != null">
+        #{ystdClosePrice,jdbcType=REAL},
+      </if>
+      <if test="nowRate != null">
+        #{nowRate,jdbcType=REAL},
+      </if>
+      <if test="nowPrice != null">
+        #{nowPrice,jdbcType=REAL},
+      </if>
+      <if test="highestRate != null">
+        #{highestRate,jdbcType=REAL},
+      </if>
+      <if test="highestPrice != null">
+        #{highestPrice,jdbcType=REAL},
+      </if>
+      <if test="lowestRate != null">
+        #{lowestRate,jdbcType=REAL},
+      </if>
+      <if test="lowestPrice != null">
+        #{lowestPrice,jdbcType=REAL},
+      </if>
+      <if test="marketTime != null">
+        #{marketTime,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mybatis.entity.StockMarketExample" resultType="java.lang.Integer">
+    select count(*) from dw_stock_market
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dw_stock_market
+    <set>
+      <if test="record.stockCode != null">
+        stock_code = #{record.stockCode,jdbcType=CHAR},
+      </if>
+      <if test="record.marketCode != null">
+        market_code = #{record.marketCode,jdbcType=CHAR},
+      </if>
+      <if test="record.openPrice != null">
+        open_price = #{record.openPrice,jdbcType=REAL},
+      </if>
+      <if test="record.ystdClosePrice != null">
+        ystd_close_price = #{record.ystdClosePrice,jdbcType=REAL},
+      </if>
+      <if test="record.nowRate != null">
+        now_rate = #{record.nowRate,jdbcType=REAL},
+      </if>
+      <if test="record.nowPrice != null">
+        now_price = #{record.nowPrice,jdbcType=REAL},
+      </if>
+      <if test="record.highestRate != null">
+        highest_rate = #{record.highestRate,jdbcType=REAL},
+      </if>
+      <if test="record.highestPrice != null">
+        highest_price = #{record.highestPrice,jdbcType=REAL},
+      </if>
+      <if test="record.lowestRate != null">
+        lowest_rate = #{record.lowestRate,jdbcType=REAL},
+      </if>
+      <if test="record.lowestPrice != null">
+        lowest_price = #{record.lowestPrice,jdbcType=REAL},
+      </if>
+      <if test="record.marketTime != null">
+        market_time = #{record.marketTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dw_stock_market
+    set stock_code = #{record.stockCode,jdbcType=CHAR},
+      market_code = #{record.marketCode,jdbcType=CHAR},
+      open_price = #{record.openPrice,jdbcType=REAL},
+      ystd_close_price = #{record.ystdClosePrice,jdbcType=REAL},
+      now_rate = #{record.nowRate,jdbcType=REAL},
+      now_price = #{record.nowPrice,jdbcType=REAL},
+      highest_rate = #{record.highestRate,jdbcType=REAL},
+      highest_price = #{record.highestPrice,jdbcType=REAL},
+      lowest_rate = #{record.lowestRate,jdbcType=REAL},
+      lowest_price = #{record.lowestPrice,jdbcType=REAL},
+      market_time = #{record.marketTime,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="mybatis.entity.StockMarket">
+    update dw_stock_market
+    <set>
+      <if test="marketCode != null">
+        market_code = #{marketCode,jdbcType=CHAR},
+      </if>
+      <if test="openPrice != null">
+        open_price = #{openPrice,jdbcType=REAL},
+      </if>
+      <if test="ystdClosePrice != null">
+        ystd_close_price = #{ystdClosePrice,jdbcType=REAL},
+      </if>
+      <if test="nowRate != null">
+        now_rate = #{nowRate,jdbcType=REAL},
+      </if>
+      <if test="nowPrice != null">
+        now_price = #{nowPrice,jdbcType=REAL},
+      </if>
+      <if test="highestRate != null">
+        highest_rate = #{highestRate,jdbcType=REAL},
+      </if>
+      <if test="highestPrice != null">
+        highest_price = #{highestPrice,jdbcType=REAL},
+      </if>
+      <if test="lowestRate != null">
+        lowest_rate = #{lowestRate,jdbcType=REAL},
+      </if>
+      <if test="lowestPrice != null">
+        lowest_price = #{lowestPrice,jdbcType=REAL},
+      </if>
+      <if test="marketTime != null">
+        market_time = #{marketTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    where stock_code = #{stockCode,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mybatis.entity.StockMarket">
+    update dw_stock_market
+    set market_code = #{marketCode,jdbcType=CHAR},
+      open_price = #{openPrice,jdbcType=REAL},
+      ystd_close_price = #{ystdClosePrice,jdbcType=REAL},
+      now_rate = #{nowRate,jdbcType=REAL},
+      now_price = #{nowPrice,jdbcType=REAL},
+      highest_rate = #{highestRate,jdbcType=REAL},
+      highest_price = #{highestPrice,jdbcType=REAL},
+      lowest_rate = #{lowestRate,jdbcType=REAL},
+      lowest_price = #{lowestPrice,jdbcType=REAL},
+      market_time = #{marketTime,jdbcType=INTEGER}
+    where stock_code = #{stockCode,jdbcType=CHAR}
+  </update>
+  <resultMap id="BaseResultMap" type="mybatis.entity.StockMarket">
+    <id column="stock_code" jdbcType="CHAR" property="stockCode" />
+    <result column="market_code" jdbcType="CHAR" property="marketCode" />
+    <result column="open_price" jdbcType="REAL" property="openPrice" />
+    <result column="ystd_close_price" jdbcType="REAL" property="ystdClosePrice" />
+    <result column="now_rate" jdbcType="REAL" property="nowRate" />
+    <result column="now_price" jdbcType="REAL" property="nowPrice" />
+    <result column="highest_rate" jdbcType="REAL" property="highestRate" />
+    <result column="highest_price" jdbcType="REAL" property="highestPrice" />
+    <result column="lowest_rate" jdbcType="REAL" property="lowestRate" />
+    <result column="lowest_price" jdbcType="REAL" property="lowestPrice" />
+    <result column="market_time" jdbcType="INTEGER" property="marketTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    stock_code, market_code, open_price, ystd_close_price, now_rate, now_price, highest_rate, 
+    highest_price, lowest_rate, lowest_price, market_time
+  </sql>
+  <select id="selectByExample" parameterType="mybatis.entity.StockMarketExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dw_stock_market
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dw_stock_market
+    where stock_code = #{stockCode,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from dw_stock_market
+    where stock_code = #{stockCode,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="mybatis.entity.StockMarketExample">
+    delete from dw_stock_market
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mybatis.entity.StockMarket">
+    insert into dw_stock_market (stock_code, market_code, open_price, 
+      ystd_close_price, now_rate, now_price, 
+      highest_rate, highest_price, lowest_rate, 
+      lowest_price, market_time)
+    values (#{stockCode,jdbcType=CHAR}, #{marketCode,jdbcType=CHAR}, #{openPrice,jdbcType=REAL}, 
+      #{ystdClosePrice,jdbcType=REAL}, #{nowRate,jdbcType=REAL}, #{nowPrice,jdbcType=REAL}, 
+      #{highestRate,jdbcType=REAL}, #{highestPrice,jdbcType=REAL}, #{lowestRate,jdbcType=REAL}, 
+      #{lowestPrice,jdbcType=REAL}, #{marketTime,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="mybatis.entity.StockMarket">
+    insert into dw_stock_market
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="stockCode != null">
+        stock_code,
+      </if>
+      <if test="marketCode != null">
+        market_code,
+      </if>
+      <if test="openPrice != null">
+        open_price,
+      </if>
+      <if test="ystdClosePrice != null">
+        ystd_close_price,
+      </if>
+      <if test="nowRate != null">
+        now_rate,
+      </if>
+      <if test="nowPrice != null">
+        now_price,
+      </if>
+      <if test="highestRate != null">
+        highest_rate,
+      </if>
+      <if test="highestPrice != null">
+        highest_price,
+      </if>
+      <if test="lowestRate != null">
+        lowest_rate,
+      </if>
+      <if test="lowestPrice != null">
+        lowest_price,
+      </if>
+      <if test="marketTime != null">
+        market_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="stockCode != null">
+        #{stockCode,jdbcType=CHAR},
+      </if>
+      <if test="marketCode != null">
+        #{marketCode,jdbcType=CHAR},
+      </if>
+      <if test="openPrice != null">
+        #{openPrice,jdbcType=REAL},
+      </if>
+      <if test="ystdClosePrice != null">
+        #{ystdClosePrice,jdbcType=REAL},
+      </if>
+      <if test="nowRate != null">
+        #{nowRate,jdbcType=REAL},
+      </if>
+      <if test="nowPrice != null">
+        #{nowPrice,jdbcType=REAL},
+      </if>
+      <if test="highestRate != null">
+        #{highestRate,jdbcType=REAL},
+      </if>
+      <if test="highestPrice != null">
+        #{highestPrice,jdbcType=REAL},
+      </if>
+      <if test="lowestRate != null">
+        #{lowestRate,jdbcType=REAL},
+      </if>
+      <if test="lowestPrice != null">
+        #{lowestPrice,jdbcType=REAL},
+      </if>
+      <if test="marketTime != null">
+        #{marketTime,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mybatis.entity.StockMarketExample" resultType="java.lang.Integer">
+    select count(*) from dw_stock_market
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dw_stock_market
+    <set>
+      <if test="record.stockCode != null">
+        stock_code = #{record.stockCode,jdbcType=CHAR},
+      </if>
+      <if test="record.marketCode != null">
+        market_code = #{record.marketCode,jdbcType=CHAR},
+      </if>
+      <if test="record.openPrice != null">
+        open_price = #{record.openPrice,jdbcType=REAL},
+      </if>
+      <if test="record.ystdClosePrice != null">
+        ystd_close_price = #{record.ystdClosePrice,jdbcType=REAL},
+      </if>
+      <if test="record.nowRate != null">
+        now_rate = #{record.nowRate,jdbcType=REAL},
+      </if>
+      <if test="record.nowPrice != null">
+        now_price = #{record.nowPrice,jdbcType=REAL},
+      </if>
+      <if test="record.highestRate != null">
+        highest_rate = #{record.highestRate,jdbcType=REAL},
+      </if>
+      <if test="record.highestPrice != null">
+        highest_price = #{record.highestPrice,jdbcType=REAL},
+      </if>
+      <if test="record.lowestRate != null">
+        lowest_rate = #{record.lowestRate,jdbcType=REAL},
+      </if>
+      <if test="record.lowestPrice != null">
+        lowest_price = #{record.lowestPrice,jdbcType=REAL},
+      </if>
+      <if test="record.marketTime != null">
+        market_time = #{record.marketTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dw_stock_market
+    set stock_code = #{record.stockCode,jdbcType=CHAR},
+      market_code = #{record.marketCode,jdbcType=CHAR},
+      open_price = #{record.openPrice,jdbcType=REAL},
+      ystd_close_price = #{record.ystdClosePrice,jdbcType=REAL},
+      now_rate = #{record.nowRate,jdbcType=REAL},
+      now_price = #{record.nowPrice,jdbcType=REAL},
+      highest_rate = #{record.highestRate,jdbcType=REAL},
+      highest_price = #{record.highestPrice,jdbcType=REAL},
+      lowest_rate = #{record.lowestRate,jdbcType=REAL},
+      lowest_price = #{record.lowestPrice,jdbcType=REAL},
+      market_time = #{record.marketTime,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="mybatis.entity.StockMarket">
+    update dw_stock_market
+    <set>
+      <if test="marketCode != null">
+        market_code = #{marketCode,jdbcType=CHAR},
+      </if>
+      <if test="openPrice != null">
+        open_price = #{openPrice,jdbcType=REAL},
+      </if>
+      <if test="ystdClosePrice != null">
+        ystd_close_price = #{ystdClosePrice,jdbcType=REAL},
+      </if>
+      <if test="nowRate != null">
+        now_rate = #{nowRate,jdbcType=REAL},
+      </if>
+      <if test="nowPrice != null">
+        now_price = #{nowPrice,jdbcType=REAL},
+      </if>
+      <if test="highestRate != null">
+        highest_rate = #{highestRate,jdbcType=REAL},
+      </if>
+      <if test="highestPrice != null">
+        highest_price = #{highestPrice,jdbcType=REAL},
+      </if>
+      <if test="lowestRate != null">
+        lowest_rate = #{lowestRate,jdbcType=REAL},
+      </if>
+      <if test="lowestPrice != null">
+        lowest_price = #{lowestPrice,jdbcType=REAL},
+      </if>
+      <if test="marketTime != null">
+        market_time = #{marketTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    where stock_code = #{stockCode,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mybatis.entity.StockMarket">
+    update dw_stock_market
+    set market_code = #{marketCode,jdbcType=CHAR},
+      open_price = #{openPrice,jdbcType=REAL},
+      ystd_close_price = #{ystdClosePrice,jdbcType=REAL},
+      now_rate = #{nowRate,jdbcType=REAL},
+      now_price = #{nowPrice,jdbcType=REAL},
+      highest_rate = #{highestRate,jdbcType=REAL},
+      highest_price = #{highestPrice,jdbcType=REAL},
+      lowest_rate = #{lowestRate,jdbcType=REAL},
+      lowest_price = #{lowestPrice,jdbcType=REAL},
+      market_time = #{marketTime,jdbcType=INTEGER}
+    where stock_code = #{stockCode,jdbcType=CHAR}
+  </update>
+  <resultMap id="BaseResultMap" type="mybatis.entity.StockMarket">
+    <id column="stock_code" jdbcType="CHAR" property="stockCode" />
+    <result column="market_code" jdbcType="CHAR" property="marketCode" />
+    <result column="open_price" jdbcType="REAL" property="openPrice" />
+    <result column="ystd_close_price" jdbcType="REAL" property="ystdClosePrice" />
+    <result column="now_rate" jdbcType="REAL" property="nowRate" />
+    <result column="now_price" jdbcType="REAL" property="nowPrice" />
+    <result column="highest_rate" jdbcType="REAL" property="highestRate" />
+    <result column="highest_price" jdbcType="REAL" property="highestPrice" />
+    <result column="lowest_rate" jdbcType="REAL" property="lowestRate" />
+    <result column="lowest_price" jdbcType="REAL" property="lowestPrice" />
+    <result column="market_time" jdbcType="INTEGER" property="marketTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    stock_code, market_code, open_price, ystd_close_price, now_rate, now_price, highest_rate, 
+    highest_price, lowest_rate, lowest_price, market_time
+  </sql>
+  <select id="selectByExample" parameterType="mybatis.entity.StockMarketExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dw_stock_market
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dw_stock_market
+    where stock_code = #{stockCode,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from dw_stock_market
+    where stock_code = #{stockCode,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="mybatis.entity.StockMarketExample">
+    delete from dw_stock_market
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mybatis.entity.StockMarket">
+    insert into dw_stock_market (stock_code, market_code, open_price, 
+      ystd_close_price, now_rate, now_price, 
+      highest_rate, highest_price, lowest_rate, 
+      lowest_price, market_time)
+    values (#{stockCode,jdbcType=CHAR}, #{marketCode,jdbcType=CHAR}, #{openPrice,jdbcType=REAL}, 
+      #{ystdClosePrice,jdbcType=REAL}, #{nowRate,jdbcType=REAL}, #{nowPrice,jdbcType=REAL}, 
+      #{highestRate,jdbcType=REAL}, #{highestPrice,jdbcType=REAL}, #{lowestRate,jdbcType=REAL}, 
+      #{lowestPrice,jdbcType=REAL}, #{marketTime,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="mybatis.entity.StockMarket">
+    insert into dw_stock_market
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="stockCode != null">
+        stock_code,
+      </if>
+      <if test="marketCode != null">
+        market_code,
+      </if>
+      <if test="openPrice != null">
+        open_price,
+      </if>
+      <if test="ystdClosePrice != null">
+        ystd_close_price,
+      </if>
+      <if test="nowRate != null">
+        now_rate,
+      </if>
+      <if test="nowPrice != null">
+        now_price,
+      </if>
+      <if test="highestRate != null">
+        highest_rate,
+      </if>
+      <if test="highestPrice != null">
+        highest_price,
+      </if>
+      <if test="lowestRate != null">
+        lowest_rate,
+      </if>
+      <if test="lowestPrice != null">
+        lowest_price,
+      </if>
+      <if test="marketTime != null">
+        market_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="stockCode != null">
+        #{stockCode,jdbcType=CHAR},
+      </if>
+      <if test="marketCode != null">
+        #{marketCode,jdbcType=CHAR},
+      </if>
+      <if test="openPrice != null">
+        #{openPrice,jdbcType=REAL},
+      </if>
+      <if test="ystdClosePrice != null">
+        #{ystdClosePrice,jdbcType=REAL},
+      </if>
+      <if test="nowRate != null">
+        #{nowRate,jdbcType=REAL},
+      </if>
+      <if test="nowPrice != null">
+        #{nowPrice,jdbcType=REAL},
+      </if>
+      <if test="highestRate != null">
+        #{highestRate,jdbcType=REAL},
+      </if>
+      <if test="highestPrice != null">
+        #{highestPrice,jdbcType=REAL},
+      </if>
+      <if test="lowestRate != null">
+        #{lowestRate,jdbcType=REAL},
+      </if>
+      <if test="lowestPrice != null">
+        #{lowestPrice,jdbcType=REAL},
+      </if>
+      <if test="marketTime != null">
+        #{marketTime,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mybatis.entity.StockMarketExample" resultType="java.lang.Integer">
+    select count(*) from dw_stock_market
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dw_stock_market
+    <set>
+      <if test="record.stockCode != null">
+        stock_code = #{record.stockCode,jdbcType=CHAR},
+      </if>
+      <if test="record.marketCode != null">
+        market_code = #{record.marketCode,jdbcType=CHAR},
+      </if>
+      <if test="record.openPrice != null">
+        open_price = #{record.openPrice,jdbcType=REAL},
+      </if>
+      <if test="record.ystdClosePrice != null">
+        ystd_close_price = #{record.ystdClosePrice,jdbcType=REAL},
+      </if>
+      <if test="record.nowRate != null">
+        now_rate = #{record.nowRate,jdbcType=REAL},
+      </if>
+      <if test="record.nowPrice != null">
+        now_price = #{record.nowPrice,jdbcType=REAL},
+      </if>
+      <if test="record.highestRate != null">
+        highest_rate = #{record.highestRate,jdbcType=REAL},
+      </if>
+      <if test="record.highestPrice != null">
+        highest_price = #{record.highestPrice,jdbcType=REAL},
+      </if>
+      <if test="record.lowestRate != null">
+        lowest_rate = #{record.lowestRate,jdbcType=REAL},
+      </if>
+      <if test="record.lowestPrice != null">
+        lowest_price = #{record.lowestPrice,jdbcType=REAL},
+      </if>
+      <if test="record.marketTime != null">
+        market_time = #{record.marketTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dw_stock_market
+    set stock_code = #{record.stockCode,jdbcType=CHAR},
+      market_code = #{record.marketCode,jdbcType=CHAR},
+      open_price = #{record.openPrice,jdbcType=REAL},
+      ystd_close_price = #{record.ystdClosePrice,jdbcType=REAL},
+      now_rate = #{record.nowRate,jdbcType=REAL},
+      now_price = #{record.nowPrice,jdbcType=REAL},
+      highest_rate = #{record.highestRate,jdbcType=REAL},
+      highest_price = #{record.highestPrice,jdbcType=REAL},
+      lowest_rate = #{record.lowestRate,jdbcType=REAL},
+      lowest_price = #{record.lowestPrice,jdbcType=REAL},
+      market_time = #{record.marketTime,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="mybatis.entity.StockMarket">
+    update dw_stock_market
+    <set>
+      <if test="marketCode != null">
+        market_code = #{marketCode,jdbcType=CHAR},
+      </if>
+      <if test="openPrice != null">
+        open_price = #{openPrice,jdbcType=REAL},
+      </if>
+      <if test="ystdClosePrice != null">
+        ystd_close_price = #{ystdClosePrice,jdbcType=REAL},
+      </if>
+      <if test="nowRate != null">
+        now_rate = #{nowRate,jdbcType=REAL},
+      </if>
+      <if test="nowPrice != null">
+        now_price = #{nowPrice,jdbcType=REAL},
+      </if>
+      <if test="highestRate != null">
+        highest_rate = #{highestRate,jdbcType=REAL},
+      </if>
+      <if test="highestPrice != null">
+        highest_price = #{highestPrice,jdbcType=REAL},
+      </if>
+      <if test="lowestRate != null">
+        lowest_rate = #{lowestRate,jdbcType=REAL},
+      </if>
+      <if test="lowestPrice != null">
+        lowest_price = #{lowestPrice,jdbcType=REAL},
+      </if>
+      <if test="marketTime != null">
+        market_time = #{marketTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    where stock_code = #{stockCode,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mybatis.entity.StockMarket">
+    update dw_stock_market
+    set market_code = #{marketCode,jdbcType=CHAR},
+      open_price = #{openPrice,jdbcType=REAL},
+      ystd_close_price = #{ystdClosePrice,jdbcType=REAL},
+      now_rate = #{nowRate,jdbcType=REAL},
+      now_price = #{nowPrice,jdbcType=REAL},
+      highest_rate = #{highestRate,jdbcType=REAL},
+      highest_price = #{highestPrice,jdbcType=REAL},
+      lowest_rate = #{lowestRate,jdbcType=REAL},
+      lowest_price = #{lowestPrice,jdbcType=REAL},
+      market_time = #{marketTime,jdbcType=INTEGER}
+    where stock_code = #{stockCode,jdbcType=CHAR}
+  </update>
+  <resultMap id="BaseResultMap" type="mybatis.entity.StockMarket">
+    <id column="stock_code" jdbcType="CHAR" property="stockCode" />
+    <result column="market_code" jdbcType="CHAR" property="marketCode" />
+    <result column="open_price" jdbcType="REAL" property="openPrice" />
+    <result column="ystd_close_price" jdbcType="REAL" property="ystdClosePrice" />
+    <result column="now_rate" jdbcType="REAL" property="nowRate" />
+    <result column="now_price" jdbcType="REAL" property="nowPrice" />
+    <result column="highest_rate" jdbcType="REAL" property="highestRate" />
+    <result column="highest_price" jdbcType="REAL" property="highestPrice" />
+    <result column="lowest_rate" jdbcType="REAL" property="lowestRate" />
+    <result column="lowest_price" jdbcType="REAL" property="lowestPrice" />
+    <result column="market_time" jdbcType="INTEGER" property="marketTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    stock_code, market_code, open_price, ystd_close_price, now_rate, now_price, highest_rate, 
+    highest_price, lowest_rate, lowest_price, market_time
+  </sql>
+  <select id="selectByExample" parameterType="mybatis.entity.StockMarketExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dw_stock_market
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dw_stock_market
+    where stock_code = #{stockCode,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from dw_stock_market
+    where stock_code = #{stockCode,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="mybatis.entity.StockMarketExample">
+    delete from dw_stock_market
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mybatis.entity.StockMarket">
+    insert into dw_stock_market (stock_code, market_code, open_price, 
+      ystd_close_price, now_rate, now_price, 
+      highest_rate, highest_price, lowest_rate, 
+      lowest_price, market_time)
+    values (#{stockCode,jdbcType=CHAR}, #{marketCode,jdbcType=CHAR}, #{openPrice,jdbcType=REAL}, 
+      #{ystdClosePrice,jdbcType=REAL}, #{nowRate,jdbcType=REAL}, #{nowPrice,jdbcType=REAL}, 
+      #{highestRate,jdbcType=REAL}, #{highestPrice,jdbcType=REAL}, #{lowestRate,jdbcType=REAL}, 
+      #{lowestPrice,jdbcType=REAL}, #{marketTime,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="mybatis.entity.StockMarket">
+    insert into dw_stock_market
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="stockCode != null">
+        stock_code,
+      </if>
+      <if test="marketCode != null">
+        market_code,
+      </if>
+      <if test="openPrice != null">
+        open_price,
+      </if>
+      <if test="ystdClosePrice != null">
+        ystd_close_price,
+      </if>
+      <if test="nowRate != null">
+        now_rate,
+      </if>
+      <if test="nowPrice != null">
+        now_price,
+      </if>
+      <if test="highestRate != null">
+        highest_rate,
+      </if>
+      <if test="highestPrice != null">
+        highest_price,
+      </if>
+      <if test="lowestRate != null">
+        lowest_rate,
+      </if>
+      <if test="lowestPrice != null">
+        lowest_price,
+      </if>
+      <if test="marketTime != null">
+        market_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="stockCode != null">
+        #{stockCode,jdbcType=CHAR},
+      </if>
+      <if test="marketCode != null">
+        #{marketCode,jdbcType=CHAR},
+      </if>
+      <if test="openPrice != null">
+        #{openPrice,jdbcType=REAL},
+      </if>
+      <if test="ystdClosePrice != null">
+        #{ystdClosePrice,jdbcType=REAL},
+      </if>
+      <if test="nowRate != null">
+        #{nowRate,jdbcType=REAL},
+      </if>
+      <if test="nowPrice != null">
+        #{nowPrice,jdbcType=REAL},
+      </if>
+      <if test="highestRate != null">
+        #{highestRate,jdbcType=REAL},
+      </if>
+      <if test="highestPrice != null">
+        #{highestPrice,jdbcType=REAL},
+      </if>
+      <if test="lowestRate != null">
+        #{lowestRate,jdbcType=REAL},
+      </if>
+      <if test="lowestPrice != null">
+        #{lowestPrice,jdbcType=REAL},
+      </if>
+      <if test="marketTime != null">
+        #{marketTime,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mybatis.entity.StockMarketExample" resultType="java.lang.Integer">
+    select count(*) from dw_stock_market
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dw_stock_market
+    <set>
+      <if test="record.stockCode != null">
+        stock_code = #{record.stockCode,jdbcType=CHAR},
+      </if>
+      <if test="record.marketCode != null">
+        market_code = #{record.marketCode,jdbcType=CHAR},
+      </if>
+      <if test="record.openPrice != null">
+        open_price = #{record.openPrice,jdbcType=REAL},
+      </if>
+      <if test="record.ystdClosePrice != null">
+        ystd_close_price = #{record.ystdClosePrice,jdbcType=REAL},
+      </if>
+      <if test="record.nowRate != null">
+        now_rate = #{record.nowRate,jdbcType=REAL},
+      </if>
+      <if test="record.nowPrice != null">
+        now_price = #{record.nowPrice,jdbcType=REAL},
+      </if>
+      <if test="record.highestRate != null">
+        highest_rate = #{record.highestRate,jdbcType=REAL},
+      </if>
+      <if test="record.highestPrice != null">
+        highest_price = #{record.highestPrice,jdbcType=REAL},
+      </if>
+      <if test="record.lowestRate != null">
+        lowest_rate = #{record.lowestRate,jdbcType=REAL},
+      </if>
+      <if test="record.lowestPrice != null">
+        lowest_price = #{record.lowestPrice,jdbcType=REAL},
+      </if>
+      <if test="record.marketTime != null">
+        market_time = #{record.marketTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dw_stock_market
+    set stock_code = #{record.stockCode,jdbcType=CHAR},
+      market_code = #{record.marketCode,jdbcType=CHAR},
+      open_price = #{record.openPrice,jdbcType=REAL},
+      ystd_close_price = #{record.ystdClosePrice,jdbcType=REAL},
+      now_rate = #{record.nowRate,jdbcType=REAL},
+      now_price = #{record.nowPrice,jdbcType=REAL},
+      highest_rate = #{record.highestRate,jdbcType=REAL},
+      highest_price = #{record.highestPrice,jdbcType=REAL},
+      lowest_rate = #{record.lowestRate,jdbcType=REAL},
+      lowest_price = #{record.lowestPrice,jdbcType=REAL},
+      market_time = #{record.marketTime,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="mybatis.entity.StockMarket">
+    update dw_stock_market
+    <set>
+      <if test="marketCode != null">
+        market_code = #{marketCode,jdbcType=CHAR},
+      </if>
+      <if test="openPrice != null">
+        open_price = #{openPrice,jdbcType=REAL},
+      </if>
+      <if test="ystdClosePrice != null">
+        ystd_close_price = #{ystdClosePrice,jdbcType=REAL},
+      </if>
+      <if test="nowRate != null">
+        now_rate = #{nowRate,jdbcType=REAL},
+      </if>
+      <if test="nowPrice != null">
+        now_price = #{nowPrice,jdbcType=REAL},
+      </if>
+      <if test="highestRate != null">
+        highest_rate = #{highestRate,jdbcType=REAL},
+      </if>
+      <if test="highestPrice != null">
+        highest_price = #{highestPrice,jdbcType=REAL},
+      </if>
+      <if test="lowestRate != null">
+        lowest_rate = #{lowestRate,jdbcType=REAL},
+      </if>
+      <if test="lowestPrice != null">
+        lowest_price = #{lowestPrice,jdbcType=REAL},
+      </if>
+      <if test="marketTime != null">
+        market_time = #{marketTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    where stock_code = #{stockCode,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mybatis.entity.StockMarket">
+    update dw_stock_market
+    set market_code = #{marketCode,jdbcType=CHAR},
+      open_price = #{openPrice,jdbcType=REAL},
+      ystd_close_price = #{ystdClosePrice,jdbcType=REAL},
+      now_rate = #{nowRate,jdbcType=REAL},
+      now_price = #{nowPrice,jdbcType=REAL},
+      highest_rate = #{highestRate,jdbcType=REAL},
+      highest_price = #{highestPrice,jdbcType=REAL},
+      lowest_rate = #{lowestRate,jdbcType=REAL},
+      lowest_price = #{lowestPrice,jdbcType=REAL},
+      market_time = #{marketTime,jdbcType=INTEGER}
+    where stock_code = #{stockCode,jdbcType=CHAR}
+  </update>
+</mapper>

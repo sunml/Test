@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="GBK" standalone="yes"?>
+<message enable="true">
+	<name>test</name>
+	<discount>0.9</discount>
+	<sex>30007</sex>
+	<id>1</id>
+	<list>
+		<list>list1</list>
+		<list>list2</list>
+	</list>
+	<hash>
+		<entry>
+			<key>key1</key>
+			<value>value1</value>
+		</entry>
+		<entry>
+			<key>key2</key>
+			<value>value2</value>
+		</entry>
+	</hash>
+	<startDate>2015-05-07T17:13:05.147+08:00</startDate>
+</message>

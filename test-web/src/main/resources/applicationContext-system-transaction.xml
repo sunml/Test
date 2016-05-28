@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd" default-lazy-init="true">
+
+	<!-- <bean id="transactionAopAdvisorOrder" class="java.lang.Integer"> -->
+	<!-- <constructor-arg value="40" /> -->
+	<!-- </bean> -->
+
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager"> <property name="sessionFactory" ref="sessionFactory" /> </bean -->
+
+	<!-- transaction 语法说明 propagation选项 REQUIRED：支持当前事务，如果当前没有事务，就新建一个事务。这是最常见的选择。 SUPPORTS：支持当前事务，如果当前没有事务，就以非事务方式执行。 MANDATORY：支持当前事务，如果当前没有事务，就抛出异常。 REQUIRES_NEW：新建事务，如果当前存在事务，把当前事务挂起。 NOT_SUPPORTED：以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。 NEVER：以非事务方式执行，如果当前存在事务，则抛出异常。 NESTED：支持当前事务，如果当前事务存在，则执行一个嵌套事务，如果当前没有事务，就新建一个事务。 isolation选项 DEFAULT：这是默认值，表示使用底层数据库的默认隔离级别。对大部分数据库而言，通常这值就是READ_COMMITTED。 READ_UNCOMMITTED：该隔离级别表示一个事务可以读取另一个事务修改但还没有提交的数据。该级别不能防止脏读和不可重复读，因此很少使用该隔离级别。 READ_COMMITTED：该隔离级别表示一个事务只能读取另一个事务已经提交的数据。该级别可以防止脏读，这也是大多数情况下的推荐值。 REPEATABLE_READ：该隔离级别表示一个事务在整个过程中可以多次重复执行某个查询，并且每次返回的记录都相同。即使在多次查询之间有新增的数据满足该查询，这些新增的记录也会被忽略。该级别可以防止脏读和不可重复读。 SERIALIZABLE：所有的事务依次逐个执行，这样事务之间就完全不可能产生干扰，也就是说，该级别可以防止脏读、不可重复读以及幻读。但是这将严重影响程序的性能。通常情况下也不会用到该级别。 -->
+	<tx:advice id="transactionInterceptor" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="find*" propagation="SUPPORTS" read-only="true" timeout="600" />
+			<tx:method name="notify*" propagation="SUPPORTS" read-only="true" timeout="300" />
+			<tx:method name="countByImportingContentId" propagation="REQUIRES_NEW" isolation="READ_COMMITTED" timeout="600" rollback-for="Throwable" />
+			<tx:method name="batch*" propagation="REQUIRED" isolation="READ_COMMITTED" timeout="1800" rollback-for="Throwable" />
+			<tx:method name="audit*" propagation="REQUIRES_NEW" isolation="READ_COMMITTED" timeout="600" rollback-for="Throwable" />
+			<!-- tx:method name="alert*" propagation="NEVER" / -->
+			<tx:method name="*" propagation="REQUIRED" isolation="READ_COMMITTED" timeout="300" rollback-for="Throwable" />
+			<!-- 设备、板卡、端口割接 -->
+			<tx:method name="execute*Cutover" propagation="REQUIRED" isolation="READ_COMMITTED" timeout="1800" rollback-for="Throwable" />
+			<!-- 板卡替换 -->
+			<tx:method name="executeCardCapacityExpansion" propagation="REQUIRED" isolation="READ_COMMITTED" timeout="1800" rollback-for="Throwable" />
+			<!-- 切割纤芯 -->
+			<tx:method name="cut" propagation="REQUIRED" isolation="READ_COMMITTED" timeout="1800" rollback-for="Throwable" />
+			<!-- 页面模块点击次数统计使用独立事务 -->
+			<tx:method name="accessServiceModule" propagation="REQUIRES_NEW" isolation="READ_COMMITTED" timeout="600" rollback-for="Throwable" />
+			<!-- 拓扑页面刷新需要长时间 -->
+			<tx:method name="syncTopoView*" propagation="REQUIRED" isolation="READ_COMMITTED" timeout="3600" rollback-for="Throwable" />
+			<!--生成工单号使用独立事务 -->
+			<tx:method name="generateOrderSequence" propagation="REQUIRES_NEW" isolation="READ_COMMITTED" timeout="300" rollback-for="Throwable" />
+			<tx:method name="createShipInfoZipFile" propagation="REQUIRES_NEW" isolation="READ_COMMITTED" timeout="600" rollback-for="Throwable" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- pointcut 语法说明 以pointcut="execution(* com.ccssoft.business..*.service.impl..*.*(..))"为例 execution(* com的* —— 通配 任意返回值类型 business..*.的.* —— 通配 包com.ccssoft.business.下的任意子包 impl..* 通配 包com.ccssoft.business..*.service.impl.下的任意class 最后的.* 通配class的任意方法 (..) 通配 方法可以有0个或多个参数 -->
+	<aop:config>
+		<aop:advisor advice-ref="transactionInterceptor" pointcut="execution(* com.ccssoft.business..*.service.impl..*.*(..))" order="40" />
+		<aop:advisor advice-ref="transactionInterceptor" pointcut="execution(* com.ccssoft.system..*.service.impl..*.*(..))" order="40" />
+		<aop:advisor advice-ref="transactionInterceptor" pointcut="execution(* com.ccssoft.system.auditlog.management.impl.*.*(..))" order="40" />
+		<aop:advisor advice-ref="transactionInterceptor" pointcut="execution(* com.ccssoft.system.usersession.management.impl.*.*(..))" order="40" />
+		<aop:advisor advice-ref="transactionInterceptor" pointcut="execution(* com.ccssoft.system.authorization.management.impl.*.*(..))" order="40" />
+		<aop:advisor advice-ref="transactionInterceptor" pointcut="execution(* com.ccssoft.process..*.service..*.impl..*.*(..))" order="40" />
+		<aop:advisor advice-ref="transactionInterceptor" pointcut="execution(* com.ccssoft.process.service..*.impl..*.*(..))" order="40" />
+	</aop:config>
+
+</beans>

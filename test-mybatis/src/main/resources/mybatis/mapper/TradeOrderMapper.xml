@@ -1,0 +1,2578 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mybatis.dao.TradeOrderMapper">
+  <resultMap id="BaseResultMap" type="mybatis.entity.TradeOrder">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="dt_trade_id" jdbcType="INTEGER" property="dtTradeId" />
+    <result column="trade_account_code" jdbcType="VARCHAR" property="tradeAccountCode" />
+    <result column="order_type" jdbcType="CHAR" property="orderType" />
+    <result column="market_code" jdbcType="CHAR" property="marketCode" />
+    <result column="stock_code" jdbcType="CHAR" property="stockCode" />
+    <result column="order_price" jdbcType="DECIMAL" property="orderPrice" />
+    <result column="order_quantity" jdbcType="INTEGER" property="orderQuantity" />
+    <result column="order_time" jdbcType="INTEGER" property="orderTime" />
+    <result column="order_trade_sn" jdbcType="VARCHAR" property="orderTradeSn" />
+    <result column="clinch_price" jdbcType="DECIMAL" property="clinchPrice" />
+    <result column="clinch_quantity" jdbcType="INTEGER" property="clinchQuantity" />
+    <result column="clinch_time" jdbcType="INTEGER" property="clinchTime" />
+    <result column="procedure_fee" jdbcType="DECIMAL" property="procedureFee" />
+    <result column="transfer_fee" jdbcType="DECIMAL" property="transferFee" />
+    <result column="stamp_tax_fee" jdbcType="DECIMAL" property="stampTaxFee" />
+    <result column="notice_status" jdbcType="TINYINT" property="noticeStatus" />
+    <result column="notice_time" jdbcType="INTEGER" property="noticeTime" />
+    <result column="order_status" jdbcType="TINYINT" property="orderStatus" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, dt_trade_id, trade_account_code, order_type, market_code, stock_code, order_price, 
+    order_quantity, order_time, order_trade_sn, clinch_price, clinch_quantity, clinch_time, 
+    procedure_fee, transfer_fee, stamp_tax_fee, notice_status, notice_time, order_status
+  </sql>
+  <select id="selectByExample" parameterType="mybatis.entity.TradeOrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dw_trade_orders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dw_trade_orders
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dw_trade_orders
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="mybatis.entity.TradeOrderExample">
+    delete from dw_trade_orders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mybatis.entity.TradeOrder">
+    insert into dw_trade_orders (id, dt_trade_id, trade_account_code, 
+      order_type, market_code, stock_code, 
+      order_price, order_quantity, order_time, 
+      order_trade_sn, clinch_price, clinch_quantity, 
+      clinch_time, procedure_fee, transfer_fee, 
+      stamp_tax_fee, notice_status, notice_time, 
+      order_status)
+    values (#{id,jdbcType=INTEGER}, #{dtTradeId,jdbcType=INTEGER}, #{tradeAccountCode,jdbcType=VARCHAR}, 
+      #{orderType,jdbcType=CHAR}, #{marketCode,jdbcType=CHAR}, #{stockCode,jdbcType=CHAR}, 
+      #{orderPrice,jdbcType=DECIMAL}, #{orderQuantity,jdbcType=INTEGER}, #{orderTime,jdbcType=INTEGER}, 
+      #{orderTradeSn,jdbcType=VARCHAR}, #{clinchPrice,jdbcType=DECIMAL}, #{clinchQuantity,jdbcType=INTEGER}, 
+      #{clinchTime,jdbcType=INTEGER}, #{procedureFee,jdbcType=DECIMAL}, #{transferFee,jdbcType=DECIMAL}, 
+      #{stampTaxFee,jdbcType=DECIMAL}, #{noticeStatus,jdbcType=TINYINT}, #{noticeTime,jdbcType=INTEGER}, 
+      #{orderStatus,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="mybatis.entity.TradeOrder">
+    insert into dw_trade_orders
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="dtTradeId != null">
+        dt_trade_id,
+      </if>
+      <if test="tradeAccountCode != null">
+        trade_account_code,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="marketCode != null">
+        market_code,
+      </if>
+      <if test="stockCode != null">
+        stock_code,
+      </if>
+      <if test="orderPrice != null">
+        order_price,
+      </if>
+      <if test="orderQuantity != null">
+        order_quantity,
+      </if>
+      <if test="orderTime != null">
+        order_time,
+      </if>
+      <if test="orderTradeSn != null">
+        order_trade_sn,
+      </if>
+      <if test="clinchPrice != null">
+        clinch_price,
+      </if>
+      <if test="clinchQuantity != null">
+        clinch_quantity,
+      </if>
+      <if test="clinchTime != null">
+        clinch_time,
+      </if>
+      <if test="procedureFee != null">
+        procedure_fee,
+      </if>
+      <if test="transferFee != null">
+        transfer_fee,
+      </if>
+      <if test="stampTaxFee != null">
+        stamp_tax_fee,
+      </if>
+      <if test="noticeStatus != null">
+        notice_status,
+      </if>
+      <if test="noticeTime != null">
+        notice_time,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dtTradeId != null">
+        #{dtTradeId,jdbcType=INTEGER},
+      </if>
+      <if test="tradeAccountCode != null">
+        #{tradeAccountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=CHAR},
+      </if>
+      <if test="marketCode != null">
+        #{marketCode,jdbcType=CHAR},
+      </if>
+      <if test="stockCode != null">
+        #{stockCode,jdbcType=CHAR},
+      </if>
+      <if test="orderPrice != null">
+        #{orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderQuantity != null">
+        #{orderQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="orderTime != null">
+        #{orderTime,jdbcType=INTEGER},
+      </if>
+      <if test="orderTradeSn != null">
+        #{orderTradeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="clinchPrice != null">
+        #{clinchPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="clinchQuantity != null">
+        #{clinchQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="clinchTime != null">
+        #{clinchTime,jdbcType=INTEGER},
+      </if>
+      <if test="procedureFee != null">
+        #{procedureFee,jdbcType=DECIMAL},
+      </if>
+      <if test="transferFee != null">
+        #{transferFee,jdbcType=DECIMAL},
+      </if>
+      <if test="stampTaxFee != null">
+        #{stampTaxFee,jdbcType=DECIMAL},
+      </if>
+      <if test="noticeStatus != null">
+        #{noticeStatus,jdbcType=TINYINT},
+      </if>
+      <if test="noticeTime != null">
+        #{noticeTime,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mybatis.entity.TradeOrderExample" resultType="java.lang.Integer">
+    select count(*) from dw_trade_orders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dw_trade_orders
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.dtTradeId != null">
+        dt_trade_id = #{record.dtTradeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.tradeAccountCode != null">
+        trade_account_code = #{record.tradeAccountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderType != null">
+        order_type = #{record.orderType,jdbcType=CHAR},
+      </if>
+      <if test="record.marketCode != null">
+        market_code = #{record.marketCode,jdbcType=CHAR},
+      </if>
+      <if test="record.stockCode != null">
+        stock_code = #{record.stockCode,jdbcType=CHAR},
+      </if>
+      <if test="record.orderPrice != null">
+        order_price = #{record.orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderQuantity != null">
+        order_quantity = #{record.orderQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderTime != null">
+        order_time = #{record.orderTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderTradeSn != null">
+        order_trade_sn = #{record.orderTradeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clinchPrice != null">
+        clinch_price = #{record.clinchPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.clinchQuantity != null">
+        clinch_quantity = #{record.clinchQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.clinchTime != null">
+        clinch_time = #{record.clinchTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.procedureFee != null">
+        procedure_fee = #{record.procedureFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.transferFee != null">
+        transfer_fee = #{record.transferFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.stampTaxFee != null">
+        stamp_tax_fee = #{record.stampTaxFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.noticeStatus != null">
+        notice_status = #{record.noticeStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.noticeTime != null">
+        notice_time = #{record.noticeTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderStatus != null">
+        order_status = #{record.orderStatus,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dw_trade_orders
+    set id = #{record.id,jdbcType=INTEGER},
+      dt_trade_id = #{record.dtTradeId,jdbcType=INTEGER},
+      trade_account_code = #{record.tradeAccountCode,jdbcType=VARCHAR},
+      order_type = #{record.orderType,jdbcType=CHAR},
+      market_code = #{record.marketCode,jdbcType=CHAR},
+      stock_code = #{record.stockCode,jdbcType=CHAR},
+      order_price = #{record.orderPrice,jdbcType=DECIMAL},
+      order_quantity = #{record.orderQuantity,jdbcType=INTEGER},
+      order_time = #{record.orderTime,jdbcType=INTEGER},
+      order_trade_sn = #{record.orderTradeSn,jdbcType=VARCHAR},
+      clinch_price = #{record.clinchPrice,jdbcType=DECIMAL},
+      clinch_quantity = #{record.clinchQuantity,jdbcType=INTEGER},
+      clinch_time = #{record.clinchTime,jdbcType=INTEGER},
+      procedure_fee = #{record.procedureFee,jdbcType=DECIMAL},
+      transfer_fee = #{record.transferFee,jdbcType=DECIMAL},
+      stamp_tax_fee = #{record.stampTaxFee,jdbcType=DECIMAL},
+      notice_status = #{record.noticeStatus,jdbcType=TINYINT},
+      notice_time = #{record.noticeTime,jdbcType=INTEGER},
+      order_status = #{record.orderStatus,jdbcType=TINYINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="mybatis.entity.TradeOrder">
+    update dw_trade_orders
+    <set>
+      <if test="dtTradeId != null">
+        dt_trade_id = #{dtTradeId,jdbcType=INTEGER},
+      </if>
+      <if test="tradeAccountCode != null">
+        trade_account_code = #{tradeAccountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=CHAR},
+      </if>
+      <if test="marketCode != null">
+        market_code = #{marketCode,jdbcType=CHAR},
+      </if>
+      <if test="stockCode != null">
+        stock_code = #{stockCode,jdbcType=CHAR},
+      </if>
+      <if test="orderPrice != null">
+        order_price = #{orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderQuantity != null">
+        order_quantity = #{orderQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="orderTime != null">
+        order_time = #{orderTime,jdbcType=INTEGER},
+      </if>
+      <if test="orderTradeSn != null">
+        order_trade_sn = #{orderTradeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="clinchPrice != null">
+        clinch_price = #{clinchPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="clinchQuantity != null">
+        clinch_quantity = #{clinchQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="clinchTime != null">
+        clinch_time = #{clinchTime,jdbcType=INTEGER},
+      </if>
+      <if test="procedureFee != null">
+        procedure_fee = #{procedureFee,jdbcType=DECIMAL},
+      </if>
+      <if test="transferFee != null">
+        transfer_fee = #{transferFee,jdbcType=DECIMAL},
+      </if>
+      <if test="stampTaxFee != null">
+        stamp_tax_fee = #{stampTaxFee,jdbcType=DECIMAL},
+      </if>
+      <if test="noticeStatus != null">
+        notice_status = #{noticeStatus,jdbcType=TINYINT},
+      </if>
+      <if test="noticeTime != null">
+        notice_time = #{noticeTime,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mybatis.entity.TradeOrder">
+    update dw_trade_orders
+    set dt_trade_id = #{dtTradeId,jdbcType=INTEGER},
+      trade_account_code = #{tradeAccountCode,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=CHAR},
+      market_code = #{marketCode,jdbcType=CHAR},
+      stock_code = #{stockCode,jdbcType=CHAR},
+      order_price = #{orderPrice,jdbcType=DECIMAL},
+      order_quantity = #{orderQuantity,jdbcType=INTEGER},
+      order_time = #{orderTime,jdbcType=INTEGER},
+      order_trade_sn = #{orderTradeSn,jdbcType=VARCHAR},
+      clinch_price = #{clinchPrice,jdbcType=DECIMAL},
+      clinch_quantity = #{clinchQuantity,jdbcType=INTEGER},
+      clinch_time = #{clinchTime,jdbcType=INTEGER},
+      procedure_fee = #{procedureFee,jdbcType=DECIMAL},
+      transfer_fee = #{transferFee,jdbcType=DECIMAL},
+      stamp_tax_fee = #{stampTaxFee,jdbcType=DECIMAL},
+      notice_status = #{noticeStatus,jdbcType=TINYINT},
+      notice_time = #{noticeTime,jdbcType=INTEGER},
+      order_status = #{orderStatus,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="mybatis.entity.TradeOrder">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="dt_trade_id" jdbcType="INTEGER" property="dtTradeId" />
+    <result column="trade_account_code" jdbcType="VARCHAR" property="tradeAccountCode" />
+    <result column="order_type" jdbcType="CHAR" property="orderType" />
+    <result column="market_code" jdbcType="CHAR" property="marketCode" />
+    <result column="stock_code" jdbcType="CHAR" property="stockCode" />
+    <result column="order_price" jdbcType="DECIMAL" property="orderPrice" />
+    <result column="order_quantity" jdbcType="INTEGER" property="orderQuantity" />
+    <result column="order_time" jdbcType="INTEGER" property="orderTime" />
+    <result column="order_trade_sn" jdbcType="VARCHAR" property="orderTradeSn" />
+    <result column="clinch_price" jdbcType="DECIMAL" property="clinchPrice" />
+    <result column="clinch_quantity" jdbcType="INTEGER" property="clinchQuantity" />
+    <result column="clinch_time" jdbcType="INTEGER" property="clinchTime" />
+    <result column="procedure_fee" jdbcType="DECIMAL" property="procedureFee" />
+    <result column="transfer_fee" jdbcType="DECIMAL" property="transferFee" />
+    <result column="stamp_tax_fee" jdbcType="DECIMAL" property="stampTaxFee" />
+    <result column="notice_status" jdbcType="TINYINT" property="noticeStatus" />
+    <result column="notice_time" jdbcType="INTEGER" property="noticeTime" />
+    <result column="order_status" jdbcType="TINYINT" property="orderStatus" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, dt_trade_id, trade_account_code, order_type, market_code, stock_code, order_price, 
+    order_quantity, order_time, order_trade_sn, clinch_price, clinch_quantity, clinch_time, 
+    procedure_fee, transfer_fee, stamp_tax_fee, notice_status, notice_time, order_status
+  </sql>
+  <select id="selectByExample" parameterType="mybatis.entity.TradeOrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dw_trade_orders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dw_trade_orders
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dw_trade_orders
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="mybatis.entity.TradeOrderExample">
+    delete from dw_trade_orders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mybatis.entity.TradeOrder">
+    insert into dw_trade_orders (id, dt_trade_id, trade_account_code, 
+      order_type, market_code, stock_code, 
+      order_price, order_quantity, order_time, 
+      order_trade_sn, clinch_price, clinch_quantity, 
+      clinch_time, procedure_fee, transfer_fee, 
+      stamp_tax_fee, notice_status, notice_time, 
+      order_status)
+    values (#{id,jdbcType=INTEGER}, #{dtTradeId,jdbcType=INTEGER}, #{tradeAccountCode,jdbcType=VARCHAR}, 
+      #{orderType,jdbcType=CHAR}, #{marketCode,jdbcType=CHAR}, #{stockCode,jdbcType=CHAR}, 
+      #{orderPrice,jdbcType=DECIMAL}, #{orderQuantity,jdbcType=INTEGER}, #{orderTime,jdbcType=INTEGER}, 
+      #{orderTradeSn,jdbcType=VARCHAR}, #{clinchPrice,jdbcType=DECIMAL}, #{clinchQuantity,jdbcType=INTEGER}, 
+      #{clinchTime,jdbcType=INTEGER}, #{procedureFee,jdbcType=DECIMAL}, #{transferFee,jdbcType=DECIMAL}, 
+      #{stampTaxFee,jdbcType=DECIMAL}, #{noticeStatus,jdbcType=TINYINT}, #{noticeTime,jdbcType=INTEGER}, 
+      #{orderStatus,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="mybatis.entity.TradeOrder">
+    insert into dw_trade_orders
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="dtTradeId != null">
+        dt_trade_id,
+      </if>
+      <if test="tradeAccountCode != null">
+        trade_account_code,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="marketCode != null">
+        market_code,
+      </if>
+      <if test="stockCode != null">
+        stock_code,
+      </if>
+      <if test="orderPrice != null">
+        order_price,
+      </if>
+      <if test="orderQuantity != null">
+        order_quantity,
+      </if>
+      <if test="orderTime != null">
+        order_time,
+      </if>
+      <if test="orderTradeSn != null">
+        order_trade_sn,
+      </if>
+      <if test="clinchPrice != null">
+        clinch_price,
+      </if>
+      <if test="clinchQuantity != null">
+        clinch_quantity,
+      </if>
+      <if test="clinchTime != null">
+        clinch_time,
+      </if>
+      <if test="procedureFee != null">
+        procedure_fee,
+      </if>
+      <if test="transferFee != null">
+        transfer_fee,
+      </if>
+      <if test="stampTaxFee != null">
+        stamp_tax_fee,
+      </if>
+      <if test="noticeStatus != null">
+        notice_status,
+      </if>
+      <if test="noticeTime != null">
+        notice_time,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dtTradeId != null">
+        #{dtTradeId,jdbcType=INTEGER},
+      </if>
+      <if test="tradeAccountCode != null">
+        #{tradeAccountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=CHAR},
+      </if>
+      <if test="marketCode != null">
+        #{marketCode,jdbcType=CHAR},
+      </if>
+      <if test="stockCode != null">
+        #{stockCode,jdbcType=CHAR},
+      </if>
+      <if test="orderPrice != null">
+        #{orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderQuantity != null">
+        #{orderQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="orderTime != null">
+        #{orderTime,jdbcType=INTEGER},
+      </if>
+      <if test="orderTradeSn != null">
+        #{orderTradeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="clinchPrice != null">
+        #{clinchPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="clinchQuantity != null">
+        #{clinchQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="clinchTime != null">
+        #{clinchTime,jdbcType=INTEGER},
+      </if>
+      <if test="procedureFee != null">
+        #{procedureFee,jdbcType=DECIMAL},
+      </if>
+      <if test="transferFee != null">
+        #{transferFee,jdbcType=DECIMAL},
+      </if>
+      <if test="stampTaxFee != null">
+        #{stampTaxFee,jdbcType=DECIMAL},
+      </if>
+      <if test="noticeStatus != null">
+        #{noticeStatus,jdbcType=TINYINT},
+      </if>
+      <if test="noticeTime != null">
+        #{noticeTime,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mybatis.entity.TradeOrderExample" resultType="java.lang.Integer">
+    select count(*) from dw_trade_orders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dw_trade_orders
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.dtTradeId != null">
+        dt_trade_id = #{record.dtTradeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.tradeAccountCode != null">
+        trade_account_code = #{record.tradeAccountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderType != null">
+        order_type = #{record.orderType,jdbcType=CHAR},
+      </if>
+      <if test="record.marketCode != null">
+        market_code = #{record.marketCode,jdbcType=CHAR},
+      </if>
+      <if test="record.stockCode != null">
+        stock_code = #{record.stockCode,jdbcType=CHAR},
+      </if>
+      <if test="record.orderPrice != null">
+        order_price = #{record.orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderQuantity != null">
+        order_quantity = #{record.orderQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderTime != null">
+        order_time = #{record.orderTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderTradeSn != null">
+        order_trade_sn = #{record.orderTradeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clinchPrice != null">
+        clinch_price = #{record.clinchPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.clinchQuantity != null">
+        clinch_quantity = #{record.clinchQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.clinchTime != null">
+        clinch_time = #{record.clinchTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.procedureFee != null">
+        procedure_fee = #{record.procedureFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.transferFee != null">
+        transfer_fee = #{record.transferFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.stampTaxFee != null">
+        stamp_tax_fee = #{record.stampTaxFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.noticeStatus != null">
+        notice_status = #{record.noticeStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.noticeTime != null">
+        notice_time = #{record.noticeTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderStatus != null">
+        order_status = #{record.orderStatus,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dw_trade_orders
+    set id = #{record.id,jdbcType=INTEGER},
+      dt_trade_id = #{record.dtTradeId,jdbcType=INTEGER},
+      trade_account_code = #{record.tradeAccountCode,jdbcType=VARCHAR},
+      order_type = #{record.orderType,jdbcType=CHAR},
+      market_code = #{record.marketCode,jdbcType=CHAR},
+      stock_code = #{record.stockCode,jdbcType=CHAR},
+      order_price = #{record.orderPrice,jdbcType=DECIMAL},
+      order_quantity = #{record.orderQuantity,jdbcType=INTEGER},
+      order_time = #{record.orderTime,jdbcType=INTEGER},
+      order_trade_sn = #{record.orderTradeSn,jdbcType=VARCHAR},
+      clinch_price = #{record.clinchPrice,jdbcType=DECIMAL},
+      clinch_quantity = #{record.clinchQuantity,jdbcType=INTEGER},
+      clinch_time = #{record.clinchTime,jdbcType=INTEGER},
+      procedure_fee = #{record.procedureFee,jdbcType=DECIMAL},
+      transfer_fee = #{record.transferFee,jdbcType=DECIMAL},
+      stamp_tax_fee = #{record.stampTaxFee,jdbcType=DECIMAL},
+      notice_status = #{record.noticeStatus,jdbcType=TINYINT},
+      notice_time = #{record.noticeTime,jdbcType=INTEGER},
+      order_status = #{record.orderStatus,jdbcType=TINYINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="mybatis.entity.TradeOrder">
+    update dw_trade_orders
+    <set>
+      <if test="dtTradeId != null">
+        dt_trade_id = #{dtTradeId,jdbcType=INTEGER},
+      </if>
+      <if test="tradeAccountCode != null">
+        trade_account_code = #{tradeAccountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=CHAR},
+      </if>
+      <if test="marketCode != null">
+        market_code = #{marketCode,jdbcType=CHAR},
+      </if>
+      <if test="stockCode != null">
+        stock_code = #{stockCode,jdbcType=CHAR},
+      </if>
+      <if test="orderPrice != null">
+        order_price = #{orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderQuantity != null">
+        order_quantity = #{orderQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="orderTime != null">
+        order_time = #{orderTime,jdbcType=INTEGER},
+      </if>
+      <if test="orderTradeSn != null">
+        order_trade_sn = #{orderTradeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="clinchPrice != null">
+        clinch_price = #{clinchPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="clinchQuantity != null">
+        clinch_quantity = #{clinchQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="clinchTime != null">
+        clinch_time = #{clinchTime,jdbcType=INTEGER},
+      </if>
+      <if test="procedureFee != null">
+        procedure_fee = #{procedureFee,jdbcType=DECIMAL},
+      </if>
+      <if test="transferFee != null">
+        transfer_fee = #{transferFee,jdbcType=DECIMAL},
+      </if>
+      <if test="stampTaxFee != null">
+        stamp_tax_fee = #{stampTaxFee,jdbcType=DECIMAL},
+      </if>
+      <if test="noticeStatus != null">
+        notice_status = #{noticeStatus,jdbcType=TINYINT},
+      </if>
+      <if test="noticeTime != null">
+        notice_time = #{noticeTime,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mybatis.entity.TradeOrder">
+    update dw_trade_orders
+    set dt_trade_id = #{dtTradeId,jdbcType=INTEGER},
+      trade_account_code = #{tradeAccountCode,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=CHAR},
+      market_code = #{marketCode,jdbcType=CHAR},
+      stock_code = #{stockCode,jdbcType=CHAR},
+      order_price = #{orderPrice,jdbcType=DECIMAL},
+      order_quantity = #{orderQuantity,jdbcType=INTEGER},
+      order_time = #{orderTime,jdbcType=INTEGER},
+      order_trade_sn = #{orderTradeSn,jdbcType=VARCHAR},
+      clinch_price = #{clinchPrice,jdbcType=DECIMAL},
+      clinch_quantity = #{clinchQuantity,jdbcType=INTEGER},
+      clinch_time = #{clinchTime,jdbcType=INTEGER},
+      procedure_fee = #{procedureFee,jdbcType=DECIMAL},
+      transfer_fee = #{transferFee,jdbcType=DECIMAL},
+      stamp_tax_fee = #{stampTaxFee,jdbcType=DECIMAL},
+      notice_status = #{noticeStatus,jdbcType=TINYINT},
+      notice_time = #{noticeTime,jdbcType=INTEGER},
+      order_status = #{orderStatus,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="mybatis.entity.TradeOrder">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="dt_trade_id" jdbcType="VARCHAR" property="dtTradeId" />
+    <result column="trade_account_code" jdbcType="VARCHAR" property="tradeAccountCode" />
+    <result column="order_type" jdbcType="CHAR" property="orderType" />
+    <result column="market_code" jdbcType="CHAR" property="marketCode" />
+    <result column="stock_code" jdbcType="CHAR" property="stockCode" />
+    <result column="order_price" jdbcType="DECIMAL" property="orderPrice" />
+    <result column="order_quantity" jdbcType="INTEGER" property="orderQuantity" />
+    <result column="order_time" jdbcType="INTEGER" property="orderTime" />
+    <result column="order_trade_sn" jdbcType="VARCHAR" property="orderTradeSn" />
+    <result column="clinch_price" jdbcType="DECIMAL" property="clinchPrice" />
+    <result column="clinch_quantity" jdbcType="INTEGER" property="clinchQuantity" />
+    <result column="clinch_time" jdbcType="INTEGER" property="clinchTime" />
+    <result column="procedure_fee" jdbcType="DECIMAL" property="procedureFee" />
+    <result column="transfer_fee" jdbcType="DECIMAL" property="transferFee" />
+    <result column="stamp_tax_fee" jdbcType="DECIMAL" property="stampTaxFee" />
+    <result column="notice_status" jdbcType="TINYINT" property="noticeStatus" />
+    <result column="notice_time" jdbcType="INTEGER" property="noticeTime" />
+    <result column="order_status" jdbcType="TINYINT" property="orderStatus" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, dt_trade_id, trade_account_code, order_type, market_code, stock_code, order_price, 
+    order_quantity, order_time, order_trade_sn, clinch_price, clinch_quantity, clinch_time, 
+    procedure_fee, transfer_fee, stamp_tax_fee, notice_status, notice_time, order_status
+  </sql>
+  <select id="selectByExample" parameterType="mybatis.entity.TradeOrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dw_trade_orders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dw_trade_orders
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dw_trade_orders
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="mybatis.entity.TradeOrderExample">
+    delete from dw_trade_orders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mybatis.entity.TradeOrder">
+    insert into dw_trade_orders (id, dt_trade_id, trade_account_code, 
+      order_type, market_code, stock_code, 
+      order_price, order_quantity, order_time, 
+      order_trade_sn, clinch_price, clinch_quantity, 
+      clinch_time, procedure_fee, transfer_fee, 
+      stamp_tax_fee, notice_status, notice_time, 
+      order_status)
+    values (#{id,jdbcType=INTEGER}, #{dtTradeId,jdbcType=VARCHAR}, #{tradeAccountCode,jdbcType=VARCHAR}, 
+      #{orderType,jdbcType=CHAR}, #{marketCode,jdbcType=CHAR}, #{stockCode,jdbcType=CHAR}, 
+      #{orderPrice,jdbcType=DECIMAL}, #{orderQuantity,jdbcType=INTEGER}, #{orderTime,jdbcType=INTEGER}, 
+      #{orderTradeSn,jdbcType=VARCHAR}, #{clinchPrice,jdbcType=DECIMAL}, #{clinchQuantity,jdbcType=INTEGER}, 
+      #{clinchTime,jdbcType=INTEGER}, #{procedureFee,jdbcType=DECIMAL}, #{transferFee,jdbcType=DECIMAL}, 
+      #{stampTaxFee,jdbcType=DECIMAL}, #{noticeStatus,jdbcType=TINYINT}, #{noticeTime,jdbcType=INTEGER}, 
+      #{orderStatus,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="mybatis.entity.TradeOrder">
+    insert into dw_trade_orders
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="dtTradeId != null">
+        dt_trade_id,
+      </if>
+      <if test="tradeAccountCode != null">
+        trade_account_code,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="marketCode != null">
+        market_code,
+      </if>
+      <if test="stockCode != null">
+        stock_code,
+      </if>
+      <if test="orderPrice != null">
+        order_price,
+      </if>
+      <if test="orderQuantity != null">
+        order_quantity,
+      </if>
+      <if test="orderTime != null">
+        order_time,
+      </if>
+      <if test="orderTradeSn != null">
+        order_trade_sn,
+      </if>
+      <if test="clinchPrice != null">
+        clinch_price,
+      </if>
+      <if test="clinchQuantity != null">
+        clinch_quantity,
+      </if>
+      <if test="clinchTime != null">
+        clinch_time,
+      </if>
+      <if test="procedureFee != null">
+        procedure_fee,
+      </if>
+      <if test="transferFee != null">
+        transfer_fee,
+      </if>
+      <if test="stampTaxFee != null">
+        stamp_tax_fee,
+      </if>
+      <if test="noticeStatus != null">
+        notice_status,
+      </if>
+      <if test="noticeTime != null">
+        notice_time,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dtTradeId != null">
+        #{dtTradeId,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeAccountCode != null">
+        #{tradeAccountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=CHAR},
+      </if>
+      <if test="marketCode != null">
+        #{marketCode,jdbcType=CHAR},
+      </if>
+      <if test="stockCode != null">
+        #{stockCode,jdbcType=CHAR},
+      </if>
+      <if test="orderPrice != null">
+        #{orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderQuantity != null">
+        #{orderQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="orderTime != null">
+        #{orderTime,jdbcType=INTEGER},
+      </if>
+      <if test="orderTradeSn != null">
+        #{orderTradeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="clinchPrice != null">
+        #{clinchPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="clinchQuantity != null">
+        #{clinchQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="clinchTime != null">
+        #{clinchTime,jdbcType=INTEGER},
+      </if>
+      <if test="procedureFee != null">
+        #{procedureFee,jdbcType=DECIMAL},
+      </if>
+      <if test="transferFee != null">
+        #{transferFee,jdbcType=DECIMAL},
+      </if>
+      <if test="stampTaxFee != null">
+        #{stampTaxFee,jdbcType=DECIMAL},
+      </if>
+      <if test="noticeStatus != null">
+        #{noticeStatus,jdbcType=TINYINT},
+      </if>
+      <if test="noticeTime != null">
+        #{noticeTime,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mybatis.entity.TradeOrderExample" resultType="java.lang.Integer">
+    select count(*) from dw_trade_orders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dw_trade_orders
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.dtTradeId != null">
+        dt_trade_id = #{record.dtTradeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tradeAccountCode != null">
+        trade_account_code = #{record.tradeAccountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderType != null">
+        order_type = #{record.orderType,jdbcType=CHAR},
+      </if>
+      <if test="record.marketCode != null">
+        market_code = #{record.marketCode,jdbcType=CHAR},
+      </if>
+      <if test="record.stockCode != null">
+        stock_code = #{record.stockCode,jdbcType=CHAR},
+      </if>
+      <if test="record.orderPrice != null">
+        order_price = #{record.orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderQuantity != null">
+        order_quantity = #{record.orderQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderTime != null">
+        order_time = #{record.orderTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderTradeSn != null">
+        order_trade_sn = #{record.orderTradeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clinchPrice != null">
+        clinch_price = #{record.clinchPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.clinchQuantity != null">
+        clinch_quantity = #{record.clinchQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.clinchTime != null">
+        clinch_time = #{record.clinchTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.procedureFee != null">
+        procedure_fee = #{record.procedureFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.transferFee != null">
+        transfer_fee = #{record.transferFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.stampTaxFee != null">
+        stamp_tax_fee = #{record.stampTaxFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.noticeStatus != null">
+        notice_status = #{record.noticeStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.noticeTime != null">
+        notice_time = #{record.noticeTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderStatus != null">
+        order_status = #{record.orderStatus,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dw_trade_orders
+    set id = #{record.id,jdbcType=INTEGER},
+      dt_trade_id = #{record.dtTradeId,jdbcType=VARCHAR},
+      trade_account_code = #{record.tradeAccountCode,jdbcType=VARCHAR},
+      order_type = #{record.orderType,jdbcType=CHAR},
+      market_code = #{record.marketCode,jdbcType=CHAR},
+      stock_code = #{record.stockCode,jdbcType=CHAR},
+      order_price = #{record.orderPrice,jdbcType=DECIMAL},
+      order_quantity = #{record.orderQuantity,jdbcType=INTEGER},
+      order_time = #{record.orderTime,jdbcType=INTEGER},
+      order_trade_sn = #{record.orderTradeSn,jdbcType=VARCHAR},
+      clinch_price = #{record.clinchPrice,jdbcType=DECIMAL},
+      clinch_quantity = #{record.clinchQuantity,jdbcType=INTEGER},
+      clinch_time = #{record.clinchTime,jdbcType=INTEGER},
+      procedure_fee = #{record.procedureFee,jdbcType=DECIMAL},
+      transfer_fee = #{record.transferFee,jdbcType=DECIMAL},
+      stamp_tax_fee = #{record.stampTaxFee,jdbcType=DECIMAL},
+      notice_status = #{record.noticeStatus,jdbcType=TINYINT},
+      notice_time = #{record.noticeTime,jdbcType=INTEGER},
+      order_status = #{record.orderStatus,jdbcType=TINYINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="mybatis.entity.TradeOrder">
+    update dw_trade_orders
+    <set>
+      <if test="dtTradeId != null">
+        dt_trade_id = #{dtTradeId,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeAccountCode != null">
+        trade_account_code = #{tradeAccountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=CHAR},
+      </if>
+      <if test="marketCode != null">
+        market_code = #{marketCode,jdbcType=CHAR},
+      </if>
+      <if test="stockCode != null">
+        stock_code = #{stockCode,jdbcType=CHAR},
+      </if>
+      <if test="orderPrice != null">
+        order_price = #{orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderQuantity != null">
+        order_quantity = #{orderQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="orderTime != null">
+        order_time = #{orderTime,jdbcType=INTEGER},
+      </if>
+      <if test="orderTradeSn != null">
+        order_trade_sn = #{orderTradeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="clinchPrice != null">
+        clinch_price = #{clinchPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="clinchQuantity != null">
+        clinch_quantity = #{clinchQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="clinchTime != null">
+        clinch_time = #{clinchTime,jdbcType=INTEGER},
+      </if>
+      <if test="procedureFee != null">
+        procedure_fee = #{procedureFee,jdbcType=DECIMAL},
+      </if>
+      <if test="transferFee != null">
+        transfer_fee = #{transferFee,jdbcType=DECIMAL},
+      </if>
+      <if test="stampTaxFee != null">
+        stamp_tax_fee = #{stampTaxFee,jdbcType=DECIMAL},
+      </if>
+      <if test="noticeStatus != null">
+        notice_status = #{noticeStatus,jdbcType=TINYINT},
+      </if>
+      <if test="noticeTime != null">
+        notice_time = #{noticeTime,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mybatis.entity.TradeOrder">
+    update dw_trade_orders
+    set dt_trade_id = #{dtTradeId,jdbcType=VARCHAR},
+      trade_account_code = #{tradeAccountCode,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=CHAR},
+      market_code = #{marketCode,jdbcType=CHAR},
+      stock_code = #{stockCode,jdbcType=CHAR},
+      order_price = #{orderPrice,jdbcType=DECIMAL},
+      order_quantity = #{orderQuantity,jdbcType=INTEGER},
+      order_time = #{orderTime,jdbcType=INTEGER},
+      order_trade_sn = #{orderTradeSn,jdbcType=VARCHAR},
+      clinch_price = #{clinchPrice,jdbcType=DECIMAL},
+      clinch_quantity = #{clinchQuantity,jdbcType=INTEGER},
+      clinch_time = #{clinchTime,jdbcType=INTEGER},
+      procedure_fee = #{procedureFee,jdbcType=DECIMAL},
+      transfer_fee = #{transferFee,jdbcType=DECIMAL},
+      stamp_tax_fee = #{stampTaxFee,jdbcType=DECIMAL},
+      notice_status = #{noticeStatus,jdbcType=TINYINT},
+      notice_time = #{noticeTime,jdbcType=INTEGER},
+      order_status = #{orderStatus,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="mybatis.entity.TradeOrder">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="dt_trade_id" jdbcType="VARCHAR" property="dtTradeId" />
+    <result column="trade_account_code" jdbcType="VARCHAR" property="tradeAccountCode" />
+    <result column="order_type" jdbcType="CHAR" property="orderType" />
+    <result column="market_code" jdbcType="CHAR" property="marketCode" />
+    <result column="stock_code" jdbcType="CHAR" property="stockCode" />
+    <result column="order_price" jdbcType="DECIMAL" property="orderPrice" />
+    <result column="order_quantity" jdbcType="INTEGER" property="orderQuantity" />
+    <result column="order_time" jdbcType="INTEGER" property="orderTime" />
+    <result column="order_trade_sn" jdbcType="VARCHAR" property="orderTradeSn" />
+    <result column="clinch_price" jdbcType="DECIMAL" property="clinchPrice" />
+    <result column="clinch_quantity" jdbcType="INTEGER" property="clinchQuantity" />
+    <result column="clinch_time" jdbcType="INTEGER" property="clinchTime" />
+    <result column="procedure_fee" jdbcType="DECIMAL" property="procedureFee" />
+    <result column="transfer_fee" jdbcType="DECIMAL" property="transferFee" />
+    <result column="stamp_tax_fee" jdbcType="DECIMAL" property="stampTaxFee" />
+    <result column="notice_status" jdbcType="TINYINT" property="noticeStatus" />
+    <result column="notice_time" jdbcType="INTEGER" property="noticeTime" />
+    <result column="order_status" jdbcType="TINYINT" property="orderStatus" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, dt_trade_id, trade_account_code, order_type, market_code, stock_code, order_price, 
+    order_quantity, order_time, order_trade_sn, clinch_price, clinch_quantity, clinch_time, 
+    procedure_fee, transfer_fee, stamp_tax_fee, notice_status, notice_time, order_status
+  </sql>
+  <select id="selectByExample" parameterType="mybatis.entity.TradeOrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dw_trade_orders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dw_trade_orders
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dw_trade_orders
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="mybatis.entity.TradeOrderExample">
+    delete from dw_trade_orders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mybatis.entity.TradeOrder">
+    insert into dw_trade_orders (id, dt_trade_id, trade_account_code, 
+      order_type, market_code, stock_code, 
+      order_price, order_quantity, order_time, 
+      order_trade_sn, clinch_price, clinch_quantity, 
+      clinch_time, procedure_fee, transfer_fee, 
+      stamp_tax_fee, notice_status, notice_time, 
+      order_status)
+    values (#{id,jdbcType=INTEGER}, #{dtTradeId,jdbcType=VARCHAR}, #{tradeAccountCode,jdbcType=VARCHAR}, 
+      #{orderType,jdbcType=CHAR}, #{marketCode,jdbcType=CHAR}, #{stockCode,jdbcType=CHAR}, 
+      #{orderPrice,jdbcType=DECIMAL}, #{orderQuantity,jdbcType=INTEGER}, #{orderTime,jdbcType=INTEGER}, 
+      #{orderTradeSn,jdbcType=VARCHAR}, #{clinchPrice,jdbcType=DECIMAL}, #{clinchQuantity,jdbcType=INTEGER}, 
+      #{clinchTime,jdbcType=INTEGER}, #{procedureFee,jdbcType=DECIMAL}, #{transferFee,jdbcType=DECIMAL}, 
+      #{stampTaxFee,jdbcType=DECIMAL}, #{noticeStatus,jdbcType=TINYINT}, #{noticeTime,jdbcType=INTEGER}, 
+      #{orderStatus,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="mybatis.entity.TradeOrder">
+    insert into dw_trade_orders
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="dtTradeId != null">
+        dt_trade_id,
+      </if>
+      <if test="tradeAccountCode != null">
+        trade_account_code,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="marketCode != null">
+        market_code,
+      </if>
+      <if test="stockCode != null">
+        stock_code,
+      </if>
+      <if test="orderPrice != null">
+        order_price,
+      </if>
+      <if test="orderQuantity != null">
+        order_quantity,
+      </if>
+      <if test="orderTime != null">
+        order_time,
+      </if>
+      <if test="orderTradeSn != null">
+        order_trade_sn,
+      </if>
+      <if test="clinchPrice != null">
+        clinch_price,
+      </if>
+      <if test="clinchQuantity != null">
+        clinch_quantity,
+      </if>
+      <if test="clinchTime != null">
+        clinch_time,
+      </if>
+      <if test="procedureFee != null">
+        procedure_fee,
+      </if>
+      <if test="transferFee != null">
+        transfer_fee,
+      </if>
+      <if test="stampTaxFee != null">
+        stamp_tax_fee,
+      </if>
+      <if test="noticeStatus != null">
+        notice_status,
+      </if>
+      <if test="noticeTime != null">
+        notice_time,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dtTradeId != null">
+        #{dtTradeId,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeAccountCode != null">
+        #{tradeAccountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=CHAR},
+      </if>
+      <if test="marketCode != null">
+        #{marketCode,jdbcType=CHAR},
+      </if>
+      <if test="stockCode != null">
+        #{stockCode,jdbcType=CHAR},
+      </if>
+      <if test="orderPrice != null">
+        #{orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderQuantity != null">
+        #{orderQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="orderTime != null">
+        #{orderTime,jdbcType=INTEGER},
+      </if>
+      <if test="orderTradeSn != null">
+        #{orderTradeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="clinchPrice != null">
+        #{clinchPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="clinchQuantity != null">
+        #{clinchQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="clinchTime != null">
+        #{clinchTime,jdbcType=INTEGER},
+      </if>
+      <if test="procedureFee != null">
+        #{procedureFee,jdbcType=DECIMAL},
+      </if>
+      <if test="transferFee != null">
+        #{transferFee,jdbcType=DECIMAL},
+      </if>
+      <if test="stampTaxFee != null">
+        #{stampTaxFee,jdbcType=DECIMAL},
+      </if>
+      <if test="noticeStatus != null">
+        #{noticeStatus,jdbcType=TINYINT},
+      </if>
+      <if test="noticeTime != null">
+        #{noticeTime,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mybatis.entity.TradeOrderExample" resultType="java.lang.Integer">
+    select count(*) from dw_trade_orders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dw_trade_orders
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.dtTradeId != null">
+        dt_trade_id = #{record.dtTradeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tradeAccountCode != null">
+        trade_account_code = #{record.tradeAccountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderType != null">
+        order_type = #{record.orderType,jdbcType=CHAR},
+      </if>
+      <if test="record.marketCode != null">
+        market_code = #{record.marketCode,jdbcType=CHAR},
+      </if>
+      <if test="record.stockCode != null">
+        stock_code = #{record.stockCode,jdbcType=CHAR},
+      </if>
+      <if test="record.orderPrice != null">
+        order_price = #{record.orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderQuantity != null">
+        order_quantity = #{record.orderQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderTime != null">
+        order_time = #{record.orderTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderTradeSn != null">
+        order_trade_sn = #{record.orderTradeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clinchPrice != null">
+        clinch_price = #{record.clinchPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.clinchQuantity != null">
+        clinch_quantity = #{record.clinchQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.clinchTime != null">
+        clinch_time = #{record.clinchTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.procedureFee != null">
+        procedure_fee = #{record.procedureFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.transferFee != null">
+        transfer_fee = #{record.transferFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.stampTaxFee != null">
+        stamp_tax_fee = #{record.stampTaxFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.noticeStatus != null">
+        notice_status = #{record.noticeStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.noticeTime != null">
+        notice_time = #{record.noticeTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderStatus != null">
+        order_status = #{record.orderStatus,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dw_trade_orders
+    set id = #{record.id,jdbcType=INTEGER},
+      dt_trade_id = #{record.dtTradeId,jdbcType=VARCHAR},
+      trade_account_code = #{record.tradeAccountCode,jdbcType=VARCHAR},
+      order_type = #{record.orderType,jdbcType=CHAR},
+      market_code = #{record.marketCode,jdbcType=CHAR},
+      stock_code = #{record.stockCode,jdbcType=CHAR},
+      order_price = #{record.orderPrice,jdbcType=DECIMAL},
+      order_quantity = #{record.orderQuantity,jdbcType=INTEGER},
+      order_time = #{record.orderTime,jdbcType=INTEGER},
+      order_trade_sn = #{record.orderTradeSn,jdbcType=VARCHAR},
+      clinch_price = #{record.clinchPrice,jdbcType=DECIMAL},
+      clinch_quantity = #{record.clinchQuantity,jdbcType=INTEGER},
+      clinch_time = #{record.clinchTime,jdbcType=INTEGER},
+      procedure_fee = #{record.procedureFee,jdbcType=DECIMAL},
+      transfer_fee = #{record.transferFee,jdbcType=DECIMAL},
+      stamp_tax_fee = #{record.stampTaxFee,jdbcType=DECIMAL},
+      notice_status = #{record.noticeStatus,jdbcType=TINYINT},
+      notice_time = #{record.noticeTime,jdbcType=INTEGER},
+      order_status = #{record.orderStatus,jdbcType=TINYINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="mybatis.entity.TradeOrder">
+    update dw_trade_orders
+    <set>
+      <if test="dtTradeId != null">
+        dt_trade_id = #{dtTradeId,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeAccountCode != null">
+        trade_account_code = #{tradeAccountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=CHAR},
+      </if>
+      <if test="marketCode != null">
+        market_code = #{marketCode,jdbcType=CHAR},
+      </if>
+      <if test="stockCode != null">
+        stock_code = #{stockCode,jdbcType=CHAR},
+      </if>
+      <if test="orderPrice != null">
+        order_price = #{orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderQuantity != null">
+        order_quantity = #{orderQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="orderTime != null">
+        order_time = #{orderTime,jdbcType=INTEGER},
+      </if>
+      <if test="orderTradeSn != null">
+        order_trade_sn = #{orderTradeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="clinchPrice != null">
+        clinch_price = #{clinchPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="clinchQuantity != null">
+        clinch_quantity = #{clinchQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="clinchTime != null">
+        clinch_time = #{clinchTime,jdbcType=INTEGER},
+      </if>
+      <if test="procedureFee != null">
+        procedure_fee = #{procedureFee,jdbcType=DECIMAL},
+      </if>
+      <if test="transferFee != null">
+        transfer_fee = #{transferFee,jdbcType=DECIMAL},
+      </if>
+      <if test="stampTaxFee != null">
+        stamp_tax_fee = #{stampTaxFee,jdbcType=DECIMAL},
+      </if>
+      <if test="noticeStatus != null">
+        notice_status = #{noticeStatus,jdbcType=TINYINT},
+      </if>
+      <if test="noticeTime != null">
+        notice_time = #{noticeTime,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mybatis.entity.TradeOrder">
+    update dw_trade_orders
+    set dt_trade_id = #{dtTradeId,jdbcType=VARCHAR},
+      trade_account_code = #{tradeAccountCode,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=CHAR},
+      market_code = #{marketCode,jdbcType=CHAR},
+      stock_code = #{stockCode,jdbcType=CHAR},
+      order_price = #{orderPrice,jdbcType=DECIMAL},
+      order_quantity = #{orderQuantity,jdbcType=INTEGER},
+      order_time = #{orderTime,jdbcType=INTEGER},
+      order_trade_sn = #{orderTradeSn,jdbcType=VARCHAR},
+      clinch_price = #{clinchPrice,jdbcType=DECIMAL},
+      clinch_quantity = #{clinchQuantity,jdbcType=INTEGER},
+      clinch_time = #{clinchTime,jdbcType=INTEGER},
+      procedure_fee = #{procedureFee,jdbcType=DECIMAL},
+      transfer_fee = #{transferFee,jdbcType=DECIMAL},
+      stamp_tax_fee = #{stampTaxFee,jdbcType=DECIMAL},
+      notice_status = #{noticeStatus,jdbcType=TINYINT},
+      notice_time = #{noticeTime,jdbcType=INTEGER},
+      order_status = #{orderStatus,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="mybatis.entity.TradeOrder">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="dt_trade_id" jdbcType="VARCHAR" property="dtTradeId" />
+    <result column="trade_account_code" jdbcType="VARCHAR" property="tradeAccountCode" />
+    <result column="order_type" jdbcType="CHAR" property="orderType" />
+    <result column="market_code" jdbcType="CHAR" property="marketCode" />
+    <result column="stock_code" jdbcType="CHAR" property="stockCode" />
+    <result column="order_price" jdbcType="DECIMAL" property="orderPrice" />
+    <result column="order_quantity" jdbcType="INTEGER" property="orderQuantity" />
+    <result column="order_time" jdbcType="INTEGER" property="orderTime" />
+    <result column="order_trade_sn" jdbcType="VARCHAR" property="orderTradeSn" />
+    <result column="clinch_price" jdbcType="DECIMAL" property="clinchPrice" />
+    <result column="clinch_quantity" jdbcType="INTEGER" property="clinchQuantity" />
+    <result column="clinch_time" jdbcType="INTEGER" property="clinchTime" />
+    <result column="procedure_fee" jdbcType="DECIMAL" property="procedureFee" />
+    <result column="transfer_fee" jdbcType="DECIMAL" property="transferFee" />
+    <result column="stamp_tax_fee" jdbcType="DECIMAL" property="stampTaxFee" />
+    <result column="notice_status" jdbcType="TINYINT" property="noticeStatus" />
+    <result column="notice_time" jdbcType="INTEGER" property="noticeTime" />
+    <result column="order_status" jdbcType="TINYINT" property="orderStatus" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, dt_trade_id, trade_account_code, order_type, market_code, stock_code, order_price, 
+    order_quantity, order_time, order_trade_sn, clinch_price, clinch_quantity, clinch_time, 
+    procedure_fee, transfer_fee, stamp_tax_fee, notice_status, notice_time, order_status
+  </sql>
+  <select id="selectByExample" parameterType="mybatis.entity.TradeOrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dw_trade_orders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dw_trade_orders
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dw_trade_orders
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="mybatis.entity.TradeOrderExample">
+    delete from dw_trade_orders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mybatis.entity.TradeOrder">
+    insert into dw_trade_orders (id, dt_trade_id, trade_account_code, 
+      order_type, market_code, stock_code, 
+      order_price, order_quantity, order_time, 
+      order_trade_sn, clinch_price, clinch_quantity, 
+      clinch_time, procedure_fee, transfer_fee, 
+      stamp_tax_fee, notice_status, notice_time, 
+      order_status)
+    values (#{id,jdbcType=INTEGER}, #{dtTradeId,jdbcType=VARCHAR}, #{tradeAccountCode,jdbcType=VARCHAR}, 
+      #{orderType,jdbcType=CHAR}, #{marketCode,jdbcType=CHAR}, #{stockCode,jdbcType=CHAR}, 
+      #{orderPrice,jdbcType=DECIMAL}, #{orderQuantity,jdbcType=INTEGER}, #{orderTime,jdbcType=INTEGER}, 
+      #{orderTradeSn,jdbcType=VARCHAR}, #{clinchPrice,jdbcType=DECIMAL}, #{clinchQuantity,jdbcType=INTEGER}, 
+      #{clinchTime,jdbcType=INTEGER}, #{procedureFee,jdbcType=DECIMAL}, #{transferFee,jdbcType=DECIMAL}, 
+      #{stampTaxFee,jdbcType=DECIMAL}, #{noticeStatus,jdbcType=TINYINT}, #{noticeTime,jdbcType=INTEGER}, 
+      #{orderStatus,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="mybatis.entity.TradeOrder">
+    insert into dw_trade_orders
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="dtTradeId != null">
+        dt_trade_id,
+      </if>
+      <if test="tradeAccountCode != null">
+        trade_account_code,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="marketCode != null">
+        market_code,
+      </if>
+      <if test="stockCode != null">
+        stock_code,
+      </if>
+      <if test="orderPrice != null">
+        order_price,
+      </if>
+      <if test="orderQuantity != null">
+        order_quantity,
+      </if>
+      <if test="orderTime != null">
+        order_time,
+      </if>
+      <if test="orderTradeSn != null">
+        order_trade_sn,
+      </if>
+      <if test="clinchPrice != null">
+        clinch_price,
+      </if>
+      <if test="clinchQuantity != null">
+        clinch_quantity,
+      </if>
+      <if test="clinchTime != null">
+        clinch_time,
+      </if>
+      <if test="procedureFee != null">
+        procedure_fee,
+      </if>
+      <if test="transferFee != null">
+        transfer_fee,
+      </if>
+      <if test="stampTaxFee != null">
+        stamp_tax_fee,
+      </if>
+      <if test="noticeStatus != null">
+        notice_status,
+      </if>
+      <if test="noticeTime != null">
+        notice_time,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dtTradeId != null">
+        #{dtTradeId,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeAccountCode != null">
+        #{tradeAccountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=CHAR},
+      </if>
+      <if test="marketCode != null">
+        #{marketCode,jdbcType=CHAR},
+      </if>
+      <if test="stockCode != null">
+        #{stockCode,jdbcType=CHAR},
+      </if>
+      <if test="orderPrice != null">
+        #{orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderQuantity != null">
+        #{orderQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="orderTime != null">
+        #{orderTime,jdbcType=INTEGER},
+      </if>
+      <if test="orderTradeSn != null">
+        #{orderTradeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="clinchPrice != null">
+        #{clinchPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="clinchQuantity != null">
+        #{clinchQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="clinchTime != null">
+        #{clinchTime,jdbcType=INTEGER},
+      </if>
+      <if test="procedureFee != null">
+        #{procedureFee,jdbcType=DECIMAL},
+      </if>
+      <if test="transferFee != null">
+        #{transferFee,jdbcType=DECIMAL},
+      </if>
+      <if test="stampTaxFee != null">
+        #{stampTaxFee,jdbcType=DECIMAL},
+      </if>
+      <if test="noticeStatus != null">
+        #{noticeStatus,jdbcType=TINYINT},
+      </if>
+      <if test="noticeTime != null">
+        #{noticeTime,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mybatis.entity.TradeOrderExample" resultType="java.lang.Integer">
+    select count(*) from dw_trade_orders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dw_trade_orders
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.dtTradeId != null">
+        dt_trade_id = #{record.dtTradeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tradeAccountCode != null">
+        trade_account_code = #{record.tradeAccountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderType != null">
+        order_type = #{record.orderType,jdbcType=CHAR},
+      </if>
+      <if test="record.marketCode != null">
+        market_code = #{record.marketCode,jdbcType=CHAR},
+      </if>
+      <if test="record.stockCode != null">
+        stock_code = #{record.stockCode,jdbcType=CHAR},
+      </if>
+      <if test="record.orderPrice != null">
+        order_price = #{record.orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderQuantity != null">
+        order_quantity = #{record.orderQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderTime != null">
+        order_time = #{record.orderTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderTradeSn != null">
+        order_trade_sn = #{record.orderTradeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clinchPrice != null">
+        clinch_price = #{record.clinchPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.clinchQuantity != null">
+        clinch_quantity = #{record.clinchQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.clinchTime != null">
+        clinch_time = #{record.clinchTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.procedureFee != null">
+        procedure_fee = #{record.procedureFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.transferFee != null">
+        transfer_fee = #{record.transferFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.stampTaxFee != null">
+        stamp_tax_fee = #{record.stampTaxFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.noticeStatus != null">
+        notice_status = #{record.noticeStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.noticeTime != null">
+        notice_time = #{record.noticeTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderStatus != null">
+        order_status = #{record.orderStatus,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dw_trade_orders
+    set id = #{record.id,jdbcType=INTEGER},
+      dt_trade_id = #{record.dtTradeId,jdbcType=VARCHAR},
+      trade_account_code = #{record.tradeAccountCode,jdbcType=VARCHAR},
+      order_type = #{record.orderType,jdbcType=CHAR},
+      market_code = #{record.marketCode,jdbcType=CHAR},
+      stock_code = #{record.stockCode,jdbcType=CHAR},
+      order_price = #{record.orderPrice,jdbcType=DECIMAL},
+      order_quantity = #{record.orderQuantity,jdbcType=INTEGER},
+      order_time = #{record.orderTime,jdbcType=INTEGER},
+      order_trade_sn = #{record.orderTradeSn,jdbcType=VARCHAR},
+      clinch_price = #{record.clinchPrice,jdbcType=DECIMAL},
+      clinch_quantity = #{record.clinchQuantity,jdbcType=INTEGER},
+      clinch_time = #{record.clinchTime,jdbcType=INTEGER},
+      procedure_fee = #{record.procedureFee,jdbcType=DECIMAL},
+      transfer_fee = #{record.transferFee,jdbcType=DECIMAL},
+      stamp_tax_fee = #{record.stampTaxFee,jdbcType=DECIMAL},
+      notice_status = #{record.noticeStatus,jdbcType=TINYINT},
+      notice_time = #{record.noticeTime,jdbcType=INTEGER},
+      order_status = #{record.orderStatus,jdbcType=TINYINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="mybatis.entity.TradeOrder">
+    update dw_trade_orders
+    <set>
+      <if test="dtTradeId != null">
+        dt_trade_id = #{dtTradeId,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeAccountCode != null">
+        trade_account_code = #{tradeAccountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=CHAR},
+      </if>
+      <if test="marketCode != null">
+        market_code = #{marketCode,jdbcType=CHAR},
+      </if>
+      <if test="stockCode != null">
+        stock_code = #{stockCode,jdbcType=CHAR},
+      </if>
+      <if test="orderPrice != null">
+        order_price = #{orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderQuantity != null">
+        order_quantity = #{orderQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="orderTime != null">
+        order_time = #{orderTime,jdbcType=INTEGER},
+      </if>
+      <if test="orderTradeSn != null">
+        order_trade_sn = #{orderTradeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="clinchPrice != null">
+        clinch_price = #{clinchPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="clinchQuantity != null">
+        clinch_quantity = #{clinchQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="clinchTime != null">
+        clinch_time = #{clinchTime,jdbcType=INTEGER},
+      </if>
+      <if test="procedureFee != null">
+        procedure_fee = #{procedureFee,jdbcType=DECIMAL},
+      </if>
+      <if test="transferFee != null">
+        transfer_fee = #{transferFee,jdbcType=DECIMAL},
+      </if>
+      <if test="stampTaxFee != null">
+        stamp_tax_fee = #{stampTaxFee,jdbcType=DECIMAL},
+      </if>
+      <if test="noticeStatus != null">
+        notice_status = #{noticeStatus,jdbcType=TINYINT},
+      </if>
+      <if test="noticeTime != null">
+        notice_time = #{noticeTime,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mybatis.entity.TradeOrder">
+    update dw_trade_orders
+    set dt_trade_id = #{dtTradeId,jdbcType=VARCHAR},
+      trade_account_code = #{tradeAccountCode,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=CHAR},
+      market_code = #{marketCode,jdbcType=CHAR},
+      stock_code = #{stockCode,jdbcType=CHAR},
+      order_price = #{orderPrice,jdbcType=DECIMAL},
+      order_quantity = #{orderQuantity,jdbcType=INTEGER},
+      order_time = #{orderTime,jdbcType=INTEGER},
+      order_trade_sn = #{orderTradeSn,jdbcType=VARCHAR},
+      clinch_price = #{clinchPrice,jdbcType=DECIMAL},
+      clinch_quantity = #{clinchQuantity,jdbcType=INTEGER},
+      clinch_time = #{clinchTime,jdbcType=INTEGER},
+      procedure_fee = #{procedureFee,jdbcType=DECIMAL},
+      transfer_fee = #{transferFee,jdbcType=DECIMAL},
+      stamp_tax_fee = #{stampTaxFee,jdbcType=DECIMAL},
+      notice_status = #{noticeStatus,jdbcType=TINYINT},
+      notice_time = #{noticeTime,jdbcType=INTEGER},
+      order_status = #{orderStatus,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="mybatis.entity.TradeOrder">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="dt_trade_id" jdbcType="VARCHAR" property="dtTradeId" />
+    <result column="trade_account_code" jdbcType="VARCHAR" property="tradeAccountCode" />
+    <result column="order_type" jdbcType="CHAR" property="orderType" />
+    <result column="market_code" jdbcType="CHAR" property="marketCode" />
+    <result column="stock_code" jdbcType="CHAR" property="stockCode" />
+    <result column="order_price" jdbcType="DECIMAL" property="orderPrice" />
+    <result column="order_quantity" jdbcType="INTEGER" property="orderQuantity" />
+    <result column="order_time" jdbcType="INTEGER" property="orderTime" />
+    <result column="order_trade_sn" jdbcType="VARCHAR" property="orderTradeSn" />
+    <result column="clinch_price" jdbcType="DECIMAL" property="clinchPrice" />
+    <result column="clinch_quantity" jdbcType="INTEGER" property="clinchQuantity" />
+    <result column="clinch_time" jdbcType="INTEGER" property="clinchTime" />
+    <result column="procedure_fee" jdbcType="DECIMAL" property="procedureFee" />
+    <result column="transfer_fee" jdbcType="DECIMAL" property="transferFee" />
+    <result column="stamp_tax_fee" jdbcType="DECIMAL" property="stampTaxFee" />
+    <result column="notice_status" jdbcType="TINYINT" property="noticeStatus" />
+    <result column="notice_time" jdbcType="INTEGER" property="noticeTime" />
+    <result column="order_status" jdbcType="TINYINT" property="orderStatus" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, dt_trade_id, trade_account_code, order_type, market_code, stock_code, order_price, 
+    order_quantity, order_time, order_trade_sn, clinch_price, clinch_quantity, clinch_time, 
+    procedure_fee, transfer_fee, stamp_tax_fee, notice_status, notice_time, order_status
+  </sql>
+  <select id="selectByExample" parameterType="mybatis.entity.TradeOrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dw_trade_orders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dw_trade_orders
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dw_trade_orders
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="mybatis.entity.TradeOrderExample">
+    delete from dw_trade_orders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="mybatis.entity.TradeOrder">
+    insert into dw_trade_orders (id, dt_trade_id, trade_account_code, 
+      order_type, market_code, stock_code, 
+      order_price, order_quantity, order_time, 
+      order_trade_sn, clinch_price, clinch_quantity, 
+      clinch_time, procedure_fee, transfer_fee, 
+      stamp_tax_fee, notice_status, notice_time, 
+      order_status)
+    values (#{id,jdbcType=INTEGER}, #{dtTradeId,jdbcType=VARCHAR}, #{tradeAccountCode,jdbcType=VARCHAR}, 
+      #{orderType,jdbcType=CHAR}, #{marketCode,jdbcType=CHAR}, #{stockCode,jdbcType=CHAR}, 
+      #{orderPrice,jdbcType=DECIMAL}, #{orderQuantity,jdbcType=INTEGER}, #{orderTime,jdbcType=INTEGER}, 
+      #{orderTradeSn,jdbcType=VARCHAR}, #{clinchPrice,jdbcType=DECIMAL}, #{clinchQuantity,jdbcType=INTEGER}, 
+      #{clinchTime,jdbcType=INTEGER}, #{procedureFee,jdbcType=DECIMAL}, #{transferFee,jdbcType=DECIMAL}, 
+      #{stampTaxFee,jdbcType=DECIMAL}, #{noticeStatus,jdbcType=TINYINT}, #{noticeTime,jdbcType=INTEGER}, 
+      #{orderStatus,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="mybatis.entity.TradeOrder">
+    insert into dw_trade_orders
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="dtTradeId != null">
+        dt_trade_id,
+      </if>
+      <if test="tradeAccountCode != null">
+        trade_account_code,
+      </if>
+      <if test="orderType != null">
+        order_type,
+      </if>
+      <if test="marketCode != null">
+        market_code,
+      </if>
+      <if test="stockCode != null">
+        stock_code,
+      </if>
+      <if test="orderPrice != null">
+        order_price,
+      </if>
+      <if test="orderQuantity != null">
+        order_quantity,
+      </if>
+      <if test="orderTime != null">
+        order_time,
+      </if>
+      <if test="orderTradeSn != null">
+        order_trade_sn,
+      </if>
+      <if test="clinchPrice != null">
+        clinch_price,
+      </if>
+      <if test="clinchQuantity != null">
+        clinch_quantity,
+      </if>
+      <if test="clinchTime != null">
+        clinch_time,
+      </if>
+      <if test="procedureFee != null">
+        procedure_fee,
+      </if>
+      <if test="transferFee != null">
+        transfer_fee,
+      </if>
+      <if test="stampTaxFee != null">
+        stamp_tax_fee,
+      </if>
+      <if test="noticeStatus != null">
+        notice_status,
+      </if>
+      <if test="noticeTime != null">
+        notice_time,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dtTradeId != null">
+        #{dtTradeId,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeAccountCode != null">
+        #{tradeAccountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        #{orderType,jdbcType=CHAR},
+      </if>
+      <if test="marketCode != null">
+        #{marketCode,jdbcType=CHAR},
+      </if>
+      <if test="stockCode != null">
+        #{stockCode,jdbcType=CHAR},
+      </if>
+      <if test="orderPrice != null">
+        #{orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderQuantity != null">
+        #{orderQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="orderTime != null">
+        #{orderTime,jdbcType=INTEGER},
+      </if>
+      <if test="orderTradeSn != null">
+        #{orderTradeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="clinchPrice != null">
+        #{clinchPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="clinchQuantity != null">
+        #{clinchQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="clinchTime != null">
+        #{clinchTime,jdbcType=INTEGER},
+      </if>
+      <if test="procedureFee != null">
+        #{procedureFee,jdbcType=DECIMAL},
+      </if>
+      <if test="transferFee != null">
+        #{transferFee,jdbcType=DECIMAL},
+      </if>
+      <if test="stampTaxFee != null">
+        #{stampTaxFee,jdbcType=DECIMAL},
+      </if>
+      <if test="noticeStatus != null">
+        #{noticeStatus,jdbcType=TINYINT},
+      </if>
+      <if test="noticeTime != null">
+        #{noticeTime,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="mybatis.entity.TradeOrderExample" resultType="java.lang.Integer">
+    select count(*) from dw_trade_orders
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update dw_trade_orders
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.dtTradeId != null">
+        dt_trade_id = #{record.dtTradeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tradeAccountCode != null">
+        trade_account_code = #{record.tradeAccountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderType != null">
+        order_type = #{record.orderType,jdbcType=CHAR},
+      </if>
+      <if test="record.marketCode != null">
+        market_code = #{record.marketCode,jdbcType=CHAR},
+      </if>
+      <if test="record.stockCode != null">
+        stock_code = #{record.stockCode,jdbcType=CHAR},
+      </if>
+      <if test="record.orderPrice != null">
+        order_price = #{record.orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderQuantity != null">
+        order_quantity = #{record.orderQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderTime != null">
+        order_time = #{record.orderTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderTradeSn != null">
+        order_trade_sn = #{record.orderTradeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clinchPrice != null">
+        clinch_price = #{record.clinchPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.clinchQuantity != null">
+        clinch_quantity = #{record.clinchQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="record.clinchTime != null">
+        clinch_time = #{record.clinchTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.procedureFee != null">
+        procedure_fee = #{record.procedureFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.transferFee != null">
+        transfer_fee = #{record.transferFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.stampTaxFee != null">
+        stamp_tax_fee = #{record.stampTaxFee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.noticeStatus != null">
+        notice_status = #{record.noticeStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.noticeTime != null">
+        notice_time = #{record.noticeTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderStatus != null">
+        order_status = #{record.orderStatus,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update dw_trade_orders
+    set id = #{record.id,jdbcType=INTEGER},
+      dt_trade_id = #{record.dtTradeId,jdbcType=VARCHAR},
+      trade_account_code = #{record.tradeAccountCode,jdbcType=VARCHAR},
+      order_type = #{record.orderType,jdbcType=CHAR},
+      market_code = #{record.marketCode,jdbcType=CHAR},
+      stock_code = #{record.stockCode,jdbcType=CHAR},
+      order_price = #{record.orderPrice,jdbcType=DECIMAL},
+      order_quantity = #{record.orderQuantity,jdbcType=INTEGER},
+      order_time = #{record.orderTime,jdbcType=INTEGER},
+      order_trade_sn = #{record.orderTradeSn,jdbcType=VARCHAR},
+      clinch_price = #{record.clinchPrice,jdbcType=DECIMAL},
+      clinch_quantity = #{record.clinchQuantity,jdbcType=INTEGER},
+      clinch_time = #{record.clinchTime,jdbcType=INTEGER},
+      procedure_fee = #{record.procedureFee,jdbcType=DECIMAL},
+      transfer_fee = #{record.transferFee,jdbcType=DECIMAL},
+      stamp_tax_fee = #{record.stampTaxFee,jdbcType=DECIMAL},
+      notice_status = #{record.noticeStatus,jdbcType=TINYINT},
+      notice_time = #{record.noticeTime,jdbcType=INTEGER},
+      order_status = #{record.orderStatus,jdbcType=TINYINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="mybatis.entity.TradeOrder">
+    update dw_trade_orders
+    <set>
+      <if test="dtTradeId != null">
+        dt_trade_id = #{dtTradeId,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeAccountCode != null">
+        trade_account_code = #{tradeAccountCode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null">
+        order_type = #{orderType,jdbcType=CHAR},
+      </if>
+      <if test="marketCode != null">
+        market_code = #{marketCode,jdbcType=CHAR},
+      </if>
+      <if test="stockCode != null">
+        stock_code = #{stockCode,jdbcType=CHAR},
+      </if>
+      <if test="orderPrice != null">
+        order_price = #{orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderQuantity != null">
+        order_quantity = #{orderQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="orderTime != null">
+        order_time = #{orderTime,jdbcType=INTEGER},
+      </if>
+      <if test="orderTradeSn != null">
+        order_trade_sn = #{orderTradeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="clinchPrice != null">
+        clinch_price = #{clinchPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="clinchQuantity != null">
+        clinch_quantity = #{clinchQuantity,jdbcType=INTEGER},
+      </if>
+      <if test="clinchTime != null">
+        clinch_time = #{clinchTime,jdbcType=INTEGER},
+      </if>
+      <if test="procedureFee != null">
+        procedure_fee = #{procedureFee,jdbcType=DECIMAL},
+      </if>
+      <if test="transferFee != null">
+        transfer_fee = #{transferFee,jdbcType=DECIMAL},
+      </if>
+      <if test="stampTaxFee != null">
+        stamp_tax_fee = #{stampTaxFee,jdbcType=DECIMAL},
+      </if>
+      <if test="noticeStatus != null">
+        notice_status = #{noticeStatus,jdbcType=TINYINT},
+      </if>
+      <if test="noticeTime != null">
+        notice_time = #{noticeTime,jdbcType=INTEGER},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="mybatis.entity.TradeOrder">
+    update dw_trade_orders
+    set dt_trade_id = #{dtTradeId,jdbcType=VARCHAR},
+      trade_account_code = #{tradeAccountCode,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=CHAR},
+      market_code = #{marketCode,jdbcType=CHAR},
+      stock_code = #{stockCode,jdbcType=CHAR},
+      order_price = #{orderPrice,jdbcType=DECIMAL},
+      order_quantity = #{orderQuantity,jdbcType=INTEGER},
+      order_time = #{orderTime,jdbcType=INTEGER},
+      order_trade_sn = #{orderTradeSn,jdbcType=VARCHAR},
+      clinch_price = #{clinchPrice,jdbcType=DECIMAL},
+      clinch_quantity = #{clinchQuantity,jdbcType=INTEGER},
+      clinch_time = #{clinchTime,jdbcType=INTEGER},
+      procedure_fee = #{procedureFee,jdbcType=DECIMAL},
+      transfer_fee = #{transferFee,jdbcType=DECIMAL},
+      stamp_tax_fee = #{stampTaxFee,jdbcType=DECIMAL},
+      notice_status = #{noticeStatus,jdbcType=TINYINT},
+      notice_time = #{noticeTime,jdbcType=INTEGER},
+      order_status = #{orderStatus,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

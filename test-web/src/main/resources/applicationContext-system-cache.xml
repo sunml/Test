@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd" default-lazy-init="false">
+
+	<!-- 全局缓存usersession的cache -->
+	<bean id="centralizedUserSessionContextCacheHttpClient" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+		<property name="serviceUrl" value="http://${cache.usersession.remote.httpinvoker.address}" />
+		<property name="serviceInterface" value="common.cache.Cache" />
+		<property name="httpInvokerRequestExecutor">
+			<bean class="org.springframework.remoting.httpinvoker.CommonsHttpInvokerRequestExecutor" />
+		</property>
+	</bean>
+	<bean name="centralizedUserSessionContextCache" class="com.ccssoft.system.cache.service.impl.CacheRemoteProxy" init-method="init">
+		<property name="cache" ref="centralizedUserSessionContextCacheHttpClient" />
+	</bean>
+	<!-- 本地缓存usersession的cache -->
+	<bean id="userSessionContextCache" class="common.cache.MapCache" init-method="init">
+		<property name="cacher">
+			<bean class="java.util.concurrent.ConcurrentHashMap" />
+		</property>
+	</bean>
+	
+		<!-- 本地缓存其他信息的cache -->
+	<bean id="cache" class="common.cache.MapCache" init-method="init">
+		<property name="cacher">
+			<bean class="java.util.concurrent.ConcurrentHashMap" />
+		</property>
+	</bean>
+
+	<bean id="cacheManagementService" class="com.ccssoft.system.cache.service.impl.CacheManagementServiceImpl">
+		<property name="endpoints">			
+			<value>${cluster.server.endpoints}</value>
+		</property>
+		<property name="cache" ref="cache" />
+	</bean>
+	<bean id="methodCacheInterceptor" class="common.cache.MethodCacheInterceptor">
+		<property name="cache" ref="cache" />
+		<property name="excludeParameterType" value="com.ccssoft.system.authorization.vo.UserContext" />
+	</bean>
+</beans>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+  <!DOCTYPE struts PUBLIC
+      "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+      "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!-- struts的action配置文件 -->
+<!-- 	<constant name="struts.objectFactory" value="spring" />
+ -->	<constant name="struts.objectFactory" value="com.opensymphony.xwork2.ObjectFactory" />
+	<!-- 所有的action都应该放在对应的package下 -->
+	<package name="default" namespace="/" extends="struts-default">
+		<action name="login" class="ml.struts2.action.LoginAction">
+			<!-- 定义逻辑视图和物理资源之间的映射 -->
+			<!-- <result name="success">/WEB-INF/jsp/login.jsp</result> -->
+			<result name="success">/WEB-INF/page/login.html</result>
+			<result name="error">/WEB-INF/jsp/error.jsp</result>
+		</action>
+	</package>
+</struts>

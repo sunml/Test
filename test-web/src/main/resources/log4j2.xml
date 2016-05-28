@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO" monitorInterval="1800" name="ServiceApi" packages="">
+	<properties>
+		<!-- ${web:rootDir}代表项目的目录 -->
+		<property name="LOG_HOME">${web:rootDir}/../../logs/${web:servletContextName}Logs</property>
+		<property name="INFO_NAME">${web:servletContextName}_INFO</property>
+		<property name="WARN_NAME">${web:servletContextName}_WARN</property>
+		<property name="ERROR_NAME">${web:servletContextName}_ERROR</property>
+		<property name="FATAL_NAME">${web:servletContextName}_FATAL</property>
+	</properties>
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<!-- 输出日志的信息格式 <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" /> -->
+			<PatternLayout pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} %level %logger{36} : %msg%n" />
+			<Filters>
+				<!-- 接受的级别 -->
+				<ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="NEUTRAL" />
+				<!-- 阻止的级别 -->
+				<ThresholdFilter level="DEBUG" onMatch="DENY" onMismatch="NEUTRAL" />
+			</Filters>
+			<!-- 过滤日志级别 -->
+		</Console>
+		<!-- 	
+		<Syslog name="langbank" protocol="TCP" charset="UTF-8">
+			<newLine>true</newLine>
+			<facility>LOCAL0</facility>
+			rsyslog服务器地址
+			<host>192.168.40.121</host>
+			服务器端口
+			<port>514</port>
+		</Syslog> 
+		-->
+		<RollingFile name="localFile" fileName="${LOG_HOME}/${web:servletContextName}.log"
+             filePattern="${LOG_HOME}/${web:servletContextName}_%d{yyyy-MM-dd}.log">
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+            <!-- 过滤日志级别 -->
+			<Filters>
+				<!-- 接受的级别 -->
+				<ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="NEUTRAL" />
+				<!-- 阻止的级别 -->
+				<ThresholdFilter level="DEBUG" onMatch="DENY" onMismatch="NEUTRAL" />
+			</Filters>
+			<!-- 输出日志的信息格式 -->
+			<PatternLayout charset="UTF-8" pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} %level %logger{36} : %msg%n" />
+        </RollingFile>
+        <RollingFile name="infoFile" fileName="${LOG_HOME}/${INFO_NAME}.log"
+             filePattern="${LOG_HOME}/${INFO_NAME}_%d{yyyy-MM-dd}.log">
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+            <!-- 过滤日志级别 -->
+			<Filters>
+				<!-- 拒绝WARN级别及以上,接受INFO级别及以上不匹配的都拒绝 -->
+				<ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL" />
+				<ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY" />
+			</Filters>
+			<!-- 输出日志的信息格式 -->
+			<PatternLayout charset="UTF-8" pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} %level %logger{36} : %msg%n" />
+        </RollingFile>
+        <RollingFile name="warnFile" fileName="${LOG_HOME}/${WARN_NAME}.log"
+             filePattern="${LOG_HOME}/${WARN_NAME}_%d{yyyy-MM-dd}.log">
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+            <!-- 过滤日志级别 -->
+			<Filters>
+				<!-- 拒绝ERROR级别及以上,接受WARN级别及以上不匹配的都拒绝 -->
+				<ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL" />
+				<ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY" />
+			</Filters>
+			<!-- 输出日志的信息格式 -->
+			<PatternLayout charset="UTF-8" pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} %level %logger{36} : %msg%n" />
+        </RollingFile>
+        <RollingFile name="errorFile" fileName="${LOG_HOME}/${ERROR_NAME}.log"
+             filePattern="${LOG_HOME}/${ERROR_NAME}_%d{yyyy-MM-dd}.log">
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+            <!-- 过滤日志级别 -->
+			<Filters>
+				<!-- 拒绝FATAL级别及以上,接受ERROR级别及以上不匹配的都拒绝 -->
+				<ThresholdFilter level="FATAL" onMatch="DENY" onMismatch="NEUTRAL" />
+				<ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY" />
+			</Filters>
+			<!-- 输出日志的信息格式 -->
+			<PatternLayout charset="UTF-8" pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} %level %logger{36} : %msg%n" />
+        </RollingFile>
+        <RollingFile name="fatalFile" fileName="${LOG_HOME}/${FATAL_NAME}.log"
+             filePattern="${LOG_HOME}/${FATAL_NAME}_%d{yyyy-MM-dd}.log">
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+            <!-- 过滤日志级别 -->
+			<Filters>
+				<!-- 接受FATAL级别及以上,不匹配的都拒绝 -->
+				<ThresholdFilter level="FATAL" onMatch="ACCEPT" onMismatch="DENY" />
+			</Filters>
+			<!-- 输出日志的信息格式 -->
+			<PatternLayout charset="UTF-8" pattern="%date{yyyy-MM-dd HH:mm:ss.SSS} %level %logger{36} : %msg%n" />
+        </RollingFile>
+	</Appenders>
+	<Loggers>
+		<Root level="ALL">
+			<AppenderRef ref="Console" />
+			<!-- <AppenderRef ref="langbank" /> -->
+			<AppenderRef ref="localFile" />
+			<AppenderRef ref="infoFile" />
+			<AppenderRef ref="warnFile" />
+			<AppenderRef ref="errorFile" />
+			<AppenderRef ref="fatalFile" />
+		</Root>
+	</Loggers>
+</Configuration>

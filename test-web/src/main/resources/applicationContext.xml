@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx" xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd 
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd 
+http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd 
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd 
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd" default-lazy-init="true">
+	<import resource="classpath:applicationContext-system-properties.xml" />
+	<!-- <import resource="classpath:applicationContext-system-cache.xml" /> -->
+	<import resource="classpath:applicationContext-system-datasource.xml" />
+	<!-- <import resource="classpath:applicationContext-system-ibatis.xml" /> -->
+	<!-- <import resource="classpath:applicationContext-system-jdbctemplate.xml" /> -->
+	<!-- <import resource="classpath:applicationContext-system-transaction.xml" /> -->
+	<context:component-scan base-package="ml" />
+	<context:annotation-config />
+	<mvc:annotation-driven />
+	<tx:annotation-driven transaction-manager="txManager" />
+
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"><property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" /> <property name="url" value="jdbc:oracle:thin:@192.168.10.152:1521:molin" /> <property name="username" value="molin" /> <property name="password" value="molin" /> </bean> -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://192.168.10.152:3306/test" />
+		<property name="username" value="root" />
+		<property name="password" value="molin" />
+	</bean>
+
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+		<property name="transactionManager" value="txManager" />
+		<property name="isolationLevel" value="ISOLATION_READ_UNCOMMITTED" />
+		<property name="timeout" value="30" />
+	</bean>
+
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<!-- <tx:method name="get*" read-only="true" isolation="SERIALIZABLE" propagation="SUPPORTS" timeout="10" rollback-for="" no-rollback-for="" /> -->
+			<tx:method name="*" propagation="REQUIRED" isolation="SERIALIZABLE" />
+		</tx:attributes>
+	</tx:advice>
+
+	<bean id="methodAdvice" class="ml.aop.advice.MethodAdvice" />
+	<bean id="aspectBean" class="ml.aop.aspect.TestAspect" />
+
+	<!-- proxy-target-class默认为false，表示使用jdk动态代理织入增强， 当为true时，表示使用CGLib动态代理技术织入增强,如果目标类没有声明接口，则spring只能使用CGLib动态代理 -->
+	<aop:aspectj-autoproxy proxy-target-class="true">
+		<aop:include name="testAspect" />
+	</aop:aspectj-autoproxy>
+
+	<aop:config>
+		<aop:pointcut id="productService" expression="execution(* ml.services.*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="productService" order="1" />
+		<aop:advisor advice-ref="methodAdvice" pointcut-ref="productService" order="2" />
+		<aop:aspect id="testAspect" ref="aspectBean">
+			<aop:before pointcut-ref="productService" method="doBefore" />
+			<aop:around pointcut-ref="productService" method="doAround" />
+			<aop:after pointcut-ref="productService" method="doAfter" />
+			<aop:after-returning pointcut-ref="productService" method="doAfterReturning" />
+			<aop:after-throwing pointcut-ref="productService" method="doThrowing" throwing="ex" />
+		</aop:aspect>
+	</aop:config>
+</beans>
